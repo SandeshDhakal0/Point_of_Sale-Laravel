@@ -2,6 +2,7 @@
 // use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ Auth::routes();
 //Admin
 Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
     Route::get('/dashboard',[AdminController::class,'index'])->name('admin.index');
+    // Route::get('/inventory',[InventoryController::class,'index'])->name('admin.inventory');
+    // Route::post('/inventory/store',[InventoryController::class,'store'])->name('admin.inventory.store');
+    Route::resource('inventory',InventoryController::class);
     // Route:get('/dashboard',[InventoryController::class,'insert'])->name('admin.insert');
 
 });

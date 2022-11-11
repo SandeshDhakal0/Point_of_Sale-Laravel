@@ -212,7 +212,7 @@
                             <span class="nav-text">Dashboard</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="index.html">Dashboard</a></li>
+                            <li><a href="{{url('admin/inventory')}}">Inventory Add</a></li>
                             <li><a href="page-analytics.html">Analytics</a></li>
                             <li><a href="page-review.html">Review</a></li>
                             <li><a href="page-order.html">Order</a></li>
