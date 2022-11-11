@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -25,6 +25,8 @@ Auth::routes();
 //Admin
 Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
     Route::get('/dashboard',[AdminController::class,'index'])->name('admin.index');
+    // Route:get('/dashboard',[InventoryController::class,'insert'])->name('admin.insert');
+
 });
 
 Route::prefix('user')->middleware(['auth','isUser'])->group(function(){

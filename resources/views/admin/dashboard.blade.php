@@ -1,5 +1,10 @@
-<h1>
+@extends('layouts.main');
+@section('content')
+    
+<div class="container-fluid">
+    
+<h1>this is the content section</h1>
+</div>
 
-    Welcome to Admin Dashboard.
 
-</h1>
+@endsection
