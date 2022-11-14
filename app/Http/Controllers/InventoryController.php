@@ -14,7 +14,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        return view('admin.inventory');
+        $inventory = Inventory::all();
+        // dd($inventory);
+        return view('admin.inventory')->with('inventory',$inventory);
     }
 
     /**
@@ -24,6 +26,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
+       
         return view('inventory.create');
     }
 
