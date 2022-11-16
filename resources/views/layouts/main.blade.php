@@ -7,13 +7,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Spos</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="{{ asset('image/png') }}" sizes="16x16" href="./images/favicon.png">
+    <link rel="icon" type="{{ asset('images/logo.png') }}" sizes="16x16" href="images/favicon.png">
     <link href="{{ asset('/vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('/vendor/chartist/css/chartist.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('/vendor/chartist/css/chartist.min.css') }}"> --}}
     <link href="{{ asset('/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
     <link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
 
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -41,10 +44,11 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
-                <img class="logo-abbr" src="./images/logo.png" alt="">
+            <a href="index.html" class="brand-logo" style="padding-left: 20px">
+                <img class="logo-abbr" src="images/logo.png" alt="">
                 {{-- <img class="logo-compact" src="./images/logo-text.png" alt="">
                 <img class="brand-title" src="./images/logo-text.png" alt=""> --}}
+                
             </a>
 
             <div class="nav-control">
@@ -88,9 +92,14 @@
                                             fill="#A4A4A4" />
                                     </svg>
                                 </span>
-                            </div>
                         </div>
-
+                    </div>
+                    <div class="datetime" style="color: #2f4cdd">
+                    
+                    @php
+                    echo date("Y-m-d");
+                    @endphp
+                    </div>
                         <ul class="navbar-nav header-right">
                             <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link dz-fullscreen primary" href="#">
@@ -178,7 +187,9 @@
                                         </svg>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a href="./page-login.html" class="dropdown-item ai-icon">
+                                    <a href="{{ route('logout') }}" class="dropdown-item ai-icon"
+                                        onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                                         <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger"
                                             width="18" height="18" viewBox="0 0 24 24" fill="none"
                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -187,8 +198,13 @@
                                             <polyline points="16 17 21 12 16 7"></polyline>
                                             <line x1="21" y1="12" x2="9" y2="12">
                                             </line>
-                                        </svg>
-                                        <span class="ml-2">Logout </span>
+                                        </svg> {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
+                                        @csrf
+                                        <span class="ml-2"> </span>
+                                    </form>
                                     </a>
                                 </div>
                             </li>
@@ -212,25 +228,18 @@
                             <span class="nav-text">Dashboard</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{url('admin/inventory')}}">Inventory Add</a></li>
-                            <li><a href="page-analytics.html">Analytics</a></li>
-                            <li><a href="page-review.html">Review</a></li>
-                            <li><a href="page-order.html">Order</a></li>
-                            <li><a href="page-order-list.html">Order List</a></li>
-                            <li><a href="page-general-customers.html">General Customers</a></li>
+                            <li><a href="{{ url('admin/inventory') }}">Inventory Add</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                             <i class="flaticon-381-television"></i>
-                            <span class="nav-text">Apps</span>
+                            <span class="nav-text">Employees</span>
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="./app-profile.html">Profile</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Email</a>
+                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Payroll</a>
                                 <ul aria-expanded="false">
                                     <li><a href="./email-compose.html">Compose</a></li>
-                                    <li><a href="./email-inbox.html">Inbox</a></li>
-                                    <li><a href="./email-read.html">Read</a></li>
                                 </ul>
                             </li>
                             <li><a href="./app-calender.html">Calendar</a></li>
@@ -345,7 +354,7 @@
                     </li>
                 </ul>
 
-                <div class="add-menu-sidebar">
+                {{-- <div class="add-menu-sidebar">
                     <img src="images/icon1.png" alt="" />
                     <p>Organize your menus through button bellow</p>
                     <a href="javascript:void(0);" class="btn btn-primary btn-block light">+ Add Menus</a>
@@ -353,7 +362,7 @@
                 <div class="copyright">
                     <p><strong>Eatio - Restaurant Admin Dashboard</strong> © 2020 All Rights Reserved</p>
 
-                </div>
+                </div> --}}
             </div>
         </div>
         <!--**********************************
@@ -389,16 +398,16 @@
         <!-- Required vendors -->
         <script src="{{ asset('/vendor/global/global.min.js') }}"></script>
         <script src="{{ asset('/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('/vendor/chart.js/Chart.bundle.min.js') }}"></script>
+        {{-- <script src="{{ asset('/vendor/chart.js/Chart.bundle.min.js') }}"></script> --}}
         <script src="{{ asset('/js/custom.min.js') }}"></script>
         <script src="{{ asset('/js/deznav-init.js') }}"></script>
 
         <!-- Counter Up -->
-        <script src="{{ asset('/vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+        {{-- <script src="{{ asset('/vendor/waypoints/jquery.waypoints.min.js') }}"></script> --}}
         <script src="{{ asset('/vendor/jquery.counterup/jquery.counterup.min.js') }}"></script>
 
         <!-- Apex Chart -->
-        <script src="{{ asset('/vendor/apexchart/apexchart.js') }}"></script>
+        {{-- <script src="{{ asset('/vendor/apexchart/apexchart.js') }}"></script> --}}
 
         <!-- Chart piety plugin files -->
         <script src="{{ asset('/vendor/peity/jquery.peity.min.js') }}"></script>

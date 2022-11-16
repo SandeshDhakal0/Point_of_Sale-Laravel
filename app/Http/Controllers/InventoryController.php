@@ -12,10 +12,15 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $inventory = Inventory::all();
+        // $inventory = Inventory::withTrashed()->find($inventory);
         // dd($inventory);
+        if($request->has('view_deleted'))
+        {
+            $inventory = Inventory::onlyTrashed()->get();
+        }
         return view('admin.inventory')->with('inventory',$inventory);
     }
 
@@ -42,7 +47,8 @@ class InventoryController extends Controller
             'product_code'=>'required',
             'product_name'=>'required',
             'tag_number'=>'required',
-            'marked_price'=>'required'
+            'marked_price'=>'required',
+            'quantity'=>'required'
         ]);
         Inventory::create($request->all());
         return redirect()->back()->with('success','Data inserted successfully.');
@@ -90,6 +96,10 @@ class InventoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Inventory::find($id)->delete();
+        // return back()->with('success','The product is deleted successfully.');   
+        // return redirect()->back()->with('success','The Product is deleted.');   
+        Inventory::where('id', $id)->delete();
+        return redirect()->back()->with('success','The product is deleted.');
     }
 }
