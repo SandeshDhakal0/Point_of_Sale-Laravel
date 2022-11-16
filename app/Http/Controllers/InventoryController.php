@@ -102,4 +102,11 @@ class InventoryController extends Controller
         Inventory::where('id', $id)->delete();
         return redirect()->back()->with('success','The product is deleted.');
     }
+
+    public function restore($id)
+    {
+       
+        Inventory::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('success','The product is restored successfully.');
+    }
 }

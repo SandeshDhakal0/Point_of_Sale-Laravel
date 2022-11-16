@@ -14,7 +14,7 @@
         <a class="btn btn-secondary" href="{{route('inventory.index',['view_deleted'=>'DeletedRecords'])}}">View Removed Products</a>
       </div>
       <div class="col">
-        <a class="btn btn-secondary" href="{{route('inventory.index')}}">Back</a>
+        <a class="btn btn-info" href="{{route('inventory.index')}}">Back</a>
       </div>
       </div>
     </div>
@@ -29,7 +29,6 @@
       setTimeout(function () {
               $("#flashmessage").hide();
           }, 3000);
-       
         </script>
 
         <!-- Modal -->
@@ -117,13 +116,18 @@
                             <td>{{ $i->tag_number }}</td>
                             <td>Rs.{{ $i->marked_price }}</td>
                             <td>{{$i->quantity}}</td>
-                            <td>
+                            <td style="display:-webkit-inline-box">
+                              @if($i->deleted_at != null)
+                              <a href="{{route('inventory.restore',$i->id)}}" class="btn btn-success btn-sm">Restore</a>
+                              @else
                                 <form method="POST" action="{{ route('inventory.destroy', $i->id) }}">
                                     @csrf
                                     <input type="hidden" name="_method" value="DELETE"/>
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
-                                <a class="fa fa-edit" data-toggle="modal" data-target="#exampleModal" href=""></a>
+                                @endif
+                                <input type="hidden" name="_method" value="UPDATE"/>
+                                <button type="submit" class="btn btn-info btn-sm ml-2" data-toggle="modal" data-target="#exampleModal" >Update</button>
                             </td>
                         </tr>
                     @endforeach

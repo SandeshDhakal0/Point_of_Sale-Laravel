@@ -29,8 +29,9 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
     // Route::get('/inventory',[InventoryController::class,'index'])->name('admin.inventory');
     // Route::post('/inventory/store',[InventoryController::class,'store'])->name('admin.inventory.store');
     Route::resource('inventory',InventoryController::class);
+    Route::get('/inventory/{id}/restore', [InventoryController::class,'restore'])->name('inventory.restore');
+    // Route::get('inventory/{$id}',[InventoryController::class,'restore'])->name('inventory.restore');
     // Route:get('/dashboard',[InventoryController::class,'insert'])->name('admin.insert');
-
 });
 
 Route::prefix('user')->middleware(['auth','isUser'])->group(function(){
