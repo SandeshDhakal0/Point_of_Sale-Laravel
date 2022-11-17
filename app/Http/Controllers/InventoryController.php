@@ -62,7 +62,8 @@ class InventoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $inventory = Inventory::find($id);
+        return view('admin.inventory',compact('user'));
     }
 
     /**
@@ -73,7 +74,9 @@ class InventoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        // $inventory = Inventory::all();
+        $data = Inventory::find($id);
+        return view('admin.inventory',compact('user'));
     }
 
     /**
@@ -83,9 +86,17 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $update = [
+            "product_code"=>$request->product_code,
+            "product_name"=>$request->product_name,
+            "tag_number"=>$request->tag_number,
+            "marked_price"=>$request->marked_price,
+            "quantity"=>$request->quantity
+        ];
+        Inventory::where('id',$request->product_id)->update($update);
+        return redirect()->back()->with('success','The product is updated.');   
     }
 
     /**
@@ -95,17 +106,13 @@ class InventoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        // Inventory::find($id)->delete();
-        // return back()->with('success','The product is deleted successfully.');   
-        // return redirect()->back()->with('success','The Product is deleted.');   
+    { 
         Inventory::where('id', $id)->delete();
         return redirect()->back()->with('success','The product is deleted.');
     }
 
     public function restore($id)
     {
-       
         Inventory::withTrashed()->find($id)->restore();
         return redirect()->back()->with('success','The product is restored successfully.');
     }

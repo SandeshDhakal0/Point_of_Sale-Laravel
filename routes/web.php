@@ -4,6 +4,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\UserController;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,7 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
     // Route::post('/inventory/store',[InventoryController::class,'store'])->name('admin.inventory.store');
     Route::resource('inventory',InventoryController::class);
     Route::get('/inventory/{id}/restore', [InventoryController::class,'restore'])->name('inventory.restore');
+    // Route::get('/inventory/{id}/update',[InventoryController::class,'update'])->name('inventory.update');
     // Route::get('inventory/{$id}',[InventoryController::class,'restore'])->name('inventory.restore');
     // Route:get('/dashboard',[InventoryController::class,'insert'])->name('admin.insert');
 });

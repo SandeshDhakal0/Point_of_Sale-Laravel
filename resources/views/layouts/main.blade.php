@@ -354,7 +354,7 @@
                     </li>
                 </ul>
 
-                {{-- <div class="add-menu-sidebar">
+                <div class="add-menu-sidebar">
                     <img src="images/icon1.png" alt="" />
                     <p>Organize your menus through button bellow</p>
                     <a href="javascript:void(0);" class="btn btn-primary btn-block light">+ Add Menus</a>
@@ -362,7 +362,7 @@
                 <div class="copyright">
                     <p><strong>Eatio - Restaurant Admin Dashboard</strong> © 2020 All Rights Reserved</p>
 
-                </div> --}}
+                </div>
             </div>
         </div>
         <!--**********************************
@@ -378,7 +378,7 @@
                 <div class="form-head d-flex mb-3 align-items-start">
                     <div class="mr-auto d-none d-lg-block">
                         <h2 class="text-black font-w600 mb-0">Dashboard</h2>
-                        <p class="mb-0">Welcome to Eatio Admin!</p>
+                        {{-- <p class="mb-0">Welcome to Eatio Admin!</p> --}}
                     </div>
                 </div>
             </div>
@@ -414,7 +414,7 @@
 
         <!-- Dashboard 1 -->
         <script src="{{ asset('/js/dashboard/dashboard-1.js') }}"></script>
-
+            @yield('scripts')
 
 </body>
 
