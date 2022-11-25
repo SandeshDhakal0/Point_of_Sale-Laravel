@@ -14,14 +14,16 @@ class InventoryController extends Controller
      */
     public function index(Request $request)
     {
-        $inventory = Inventory::all();
+        $inventory = Inventory::latest()->paginate(5);
         // $inventory = Inventory::withTrashed()->find($inventory);
         // dd($inventory);
         if($request->has('view_deleted'))
         {
             $inventory = Inventory::onlyTrashed()->get();
         }
-        return view('admin.inventory')->with('inventory',$inventory);
+        return view('admin.inventory',compact('inventory'));
+        // ->with('i',(request()->input('page',1)-1)*5);
+        // ->with('inventory',$inventory);
     }
 
     /**
@@ -60,10 +62,10 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Inventory $inventory )
     {
-        $inventory = Inventory::find($id);
-        return view('admin.inventory',compact('user'));
+        // $inventory = Inventory::find($id);
+        return view('admin.inventory',compact('inventory'));
     }
 
     /**
@@ -115,5 +117,28 @@ class InventoryController extends Controller
     {
         Inventory::withTrashed()->find($id)->restore();
         return redirect()->back()->with('success','The product is restored successfully.');
+    }
+
+    public function search(Request $request)
+    {
+        //Get the search value from the input
+        $search = $request->input('search');
+        //Search in the table
+        $inventory = Inventory::query()->where('product_name','LIKE',"%{$search}%")->orWhere('product_code','LIKE',"%{$search}%")->get();
+        // if(request('search')){
+        //     $inventory = Inventory::where('name','like','%'.request('search').'%')->get();
+
+        // } else {
+        //     $inventory = Inventory::all();
+        // }
+        // $search_text = $_GET('query');
+        // $inventory = Inventory::where('title','LIKE','%'.$search_text.'%')->get();
+
+        // $inventory = Inventory::where([
+        //     ['product_name', '!=',Null ]
+        //     [function($query) use ]
+        // ]);
+
+        return view('admin/search',compact('inventory'));
     }
 }

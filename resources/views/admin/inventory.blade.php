@@ -18,6 +18,15 @@
                 <div class="col">
                     <a class="btn btn-info" href="{{ route('inventory.index') }}">Back</a>
                 </div>
+
+                <div class="col" style="display: flex">
+                    <form action="{{route('inventory.search')}}" method="GET">
+                    <input type="text" name="search"  class="form-control input-default"
+                    placeholder="Search Products" >
+                    {{-- value="{{request('search')}}" --}}
+                    {{-- <button class="btn btn-info ml-2">Search</button> --}}
+                </form>
+                </div>
             </div>
         </div>
         <br>
@@ -203,6 +212,8 @@
                 @endif
             </tbody>
         </table>
+
+        {{$inventory->links()}}
 
     </div>
 
