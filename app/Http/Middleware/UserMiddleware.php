@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserMiddleware
 {
@@ -20,12 +21,12 @@ class UserMiddleware
         //Admin role = 1
         //User role = 0
         if (Auth::check()) {
-            if (Auth::user()->role == '0') {
+            if (Auth::user()->role == 0) {
                 return $next($request);
             } else {
                 return redirect('./home')->with('message', 'Access denied as User');
             }
-        } else { 
+        } else {
             return redirect('./login')->with('message', 'Login required.');
         }
         return $next($request);
