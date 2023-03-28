@@ -2,9 +2,12 @@
 // use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LogoutController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,8 +34,13 @@ Route::prefix('user')->middleware(['auth','isUser'])->group(function(){
     Route::get('/dashboard',[UserController::class,'index'])->name('user.index');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/logout', [LogoutController::class,'perform'])->name('logout.perform');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/category/list',[CategoryController::class,'index'])->name('category.list');
+
+Route::get('/category/add',[CategoryController::class,'add'])->name('category.add');
+Route::get('/category/find',[CategoryController::class,'find'])->name('category.find');
+Route::get('/category/delete/{id}',[CategoryController::class,'delete'])->name('category.delete');
