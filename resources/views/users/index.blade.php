@@ -17,12 +17,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Category</h1>
+                            <h1 class="m-0">Users</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Category</li>
+                                <li class="breadcrumb-item active">Users</li>
                             </ol>
                         </div>
                     </div>
@@ -35,34 +35,36 @@
                     <nav class="header navbar navbar-expand navbar-white navbar-light">
 
                         <ul class="navbar-nav">
-                            <h5>Category List</h5>
+                            <h5>User List</h5>
                         </ul>
 
                         <ul class="navbar-nav ml-auto">
-                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#category_model">
+                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#user_modal">
                                 <i class="fas fa-sm fa-plus"></i> Add
                             </a>
                         </ul>
                     </nav>
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                        </div>
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                     @endif
                     @if ($message = Session::get('error'))
-                        <div class="alert alert-danger alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                        </div>
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                     @endif
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Category Id</th>
-                                    <th>Category Name</th>
-                                    <th>Actions
+                                    <th>Id</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>
@@ -74,11 +76,11 @@
 
         </div>
 
-        <div class="modal fade" id="category_model">
+        <div class="modal fade" id="user_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Update Category</h4>
+                        <h4 class="modal-title">Update User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -88,8 +90,28 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <div id="editCat"></div>
-                                <label for="category_name">Category Name</label>
-                                <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Enter Category Name.">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter Employee Name.">
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control select2bs4" name="role" id="role" style="width: 100%;">
+                                    <option  value='0'>User</option>
+                                    <option  value='1'>Admin</option>
+                                    <option  value='2'>Employee</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <lable id="email">Email</lable>
+                                <input type="email" class="form-control" name="email" id="email">
+                            </div>
+                            <div class="form-group">
+                                <lable id="password">Password</lable>
+                                <input type="password" class="form-control" name="password" id="password">
+                            </div>
+                            <div class="form-group">
+                                <lable id="re-pass">Re-enter Password</lable>
+                                <input type="password" class="form-control" name="re-pass" id="re-pass">
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
@@ -112,7 +134,8 @@
     <script>
         $(function() {
             var loadtable;
-            function loadDatatable(){
+
+            function loadDatatable() {
                 loadtable = $('#example2').DataTable({
                     "paging": false,
                     "lengthChange": false,
@@ -122,13 +145,19 @@
                     "autoWidth": false,
                     "responsive": true,
                     "ajax": {
-                        url: '{{route("category.list")}}',
+                        url: '{{route("users.list")}}',
                     },
                     "columns": [{
-                            data: 'cat_id'
+                            data: 'id'
                         },
                         {
-                            data: 'cat_name'
+                            data: 'name'
+                        },
+                        {
+                            data: 'email'
+                        },
+                        {
+                            data: 'role'
                         },
                         {
                             data: 'action'
@@ -139,52 +168,71 @@
             }
             loadDatatable();
 
-            $('#cat_form').on('submit',function(event){
+            $('#cat_form').on('submit', function(event) {
                 $.ajaxSetup({
                     headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 event.preventDefault();
                 var formData = $(this).serializeArray();
                 $.ajax({
-                    url : '{{route("category.add")}}',
-                    type : 'get',
-                    data : formData,
-                    success : function(res){
-                        $('#category_model').modal('hide');
+                    url: "{{route('users.add')}}",
+                    type: 'get',
+                    data: formData,
+                    success: function(res) {
+                        $('#user_modal').modal('hide');
                         res = JSON.parse(res);
-                        if(res.status == 200){
+                        if (res.status == 200) {
                             toastr.success(res.message);
                             $('#example2 tbody').empty();
-                            if(loadtable){
+                            if (loadtable) {
                                 loadtable.destroy();
                             }
                             loadDatatable();
-                        }else{
+                        } else {
                             toastr.error(res.message);
                         }
                     }
                 });
             });
 
-            $('#category_model').on('show.bs.modal',function(event){
+            $('#user_modal').on('show.bs.modal', function(event) {
                 let button = $(event.relatedTarget);
-                if(button.hasClass('editBtn')){
-                    console.log(button)
+                if (button.hasClass('editBtn')) {
                     let data_id = button.data('id');
-                    let category_name = button.data('categoryname');
-                    $('#editCat').html('<input type="hidden" name="category_id" value="'+data_id+'">');
-                    $('#category_name').val(category_name);
+                    $('#editCat').html('<input type="hidden" name="id" value="' + data_id + '">');
+                    $.ajax({
+                        url: "{{route('users.find')}}",
+                        type: 'get',
+                        data: { 'id':data_id },
+                        success: function(res) {
+                            res = JSON.parse(res);
+                            if (res.status == 200) {
+                                res = res.data;
+                                $('#name').val(res.name);
+                                $('#role').val(res.role);
+                                $('#email').val(res.email);
+                                $('#password').val(res.password);
+
+                            }
+                        }
+                    });
                 }
 
             });
 
-            $('#category_model').on('hidden.bs.model',function(){
-                $('#editCat').empty();
-                $('#category_name').val('');
-            });
         });
+        $('#user_modal').on('hidden.bs.modal', function() {
+                $('#editCat').empty();
+                $('#name').val('');
+                $('#role').val('');
+                $('#email').val('');
+                $('#password').val('');
+                $('#re-pass').val('');
+        });
+
+
     </script>
 
 </body>

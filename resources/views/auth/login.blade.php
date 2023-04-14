@@ -57,7 +57,7 @@
                     <a href="{{ route('password.request') }}">Forgot Password !! click me</a>
                 </p>
                 <p class="mt-1">
-                    <a href="register.html" class="text-center">Register a new membership</a>
+                    <a href="/register" class="text-center">Register a new membership</a>
                 </p>
             </div>
 

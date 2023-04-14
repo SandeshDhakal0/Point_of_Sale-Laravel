@@ -17,12 +17,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Category</h1>
+                            <h1 class="m-0">Products</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Category</li>
+                                <li class="breadcrumb-item active">Products</li>
                             </ol>
                         </div>
                     </div>
@@ -35,12 +35,12 @@
                     <nav class="header navbar navbar-expand navbar-white navbar-light">
 
                         <ul class="navbar-nav">
-                            <h5>Category List</h5>
+                            <h5>Product List</h5>
                         </ul>
 
                         <ul class="navbar-nav ml-auto">
-                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#category_model">
-                                <i class="fas fa-sm fa-plus"></i> Add
+                            <a class="btn btn-app" href="{{route('product.add')}}">
+                                <i class="fas fa-sm fa-plus"></i> Product
                             </a>
                         </ul>
                     </nav>
@@ -60,9 +60,13 @@
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Category Id</th>
-                                    <th>Category Name</th>
-                                    <th>Actions
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                         </table>
@@ -74,34 +78,6 @@
 
         </div>
 
-        <div class="modal fade" id="category_model">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Update Category</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="cat_form">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <div id="editCat"></div>
-                                <label for="category_name">Category Name</label>
-                                <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Enter Category Name.">
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-
-            </div>
-
-        </div>
 
         @include('layouts.footer')
 
@@ -122,13 +98,25 @@
                     "autoWidth": false,
                     "responsive": true,
                     "ajax": {
-                        url: '{{route("category.list")}}',
+                        url: '{{route("product.list")}}',
                     },
                     "columns": [{
-                            data: 'cat_id'
+                            data: 'product_id'
                         },
                         {
-                            data: 'cat_name'
+                            data: 'product_name'
+                        },
+                        {
+                            data: 'product_brand'
+                        },
+                        {
+                            data: 'available_sizes'
+                        },
+                        {
+                            data: 'stock_quantity'
+                        },
+                        {
+                            data: 'sales_price'
                         },
                         {
                             data: 'action'
@@ -180,7 +168,7 @@
 
             });
 
-            $('#category_model').on('hidden.bs.model',function(){
+            $('#category_model').on('hdden.bs.model',function(){
                 $('#editCat').empty();
                 $('#category_name').val('');
             });

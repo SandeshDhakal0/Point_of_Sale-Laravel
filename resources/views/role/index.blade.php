@@ -17,12 +17,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Category</h1>
+                            <h1 class="m-0">Roles</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Category</li>
+                                <li class="breadcrumb-item active">Roles</li>
                             </ol>
                         </div>
                     </div>
@@ -35,11 +35,11 @@
                     <nav class="header navbar navbar-expand navbar-white navbar-light">
 
                         <ul class="navbar-nav">
-                            <h5>Category List</h5>
+                            <h5>Role List</h5>
                         </ul>
 
                         <ul class="navbar-nav ml-auto">
-                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#category_model">
+                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#role_modal">
                                 <i class="fas fa-sm fa-plus"></i> Add
                             </a>
                         </ul>
@@ -60,8 +60,8 @@
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Category Id</th>
-                                    <th>Category Name</th>
+                                    <th>Id</th>
+                                    <th>Role</th>
                                     <th>Actions
                                 </tr>
                             </thead>
@@ -74,11 +74,11 @@
 
         </div>
 
-        <div class="modal fade" id="category_model">
+        <div class="modal fade" id="role_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Update Category</h4>
+                        <h4 class="modal-title">Update Role</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -88,8 +88,8 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <div id="editCat"></div>
-                                <label for="category_name">Category Name</label>
-                                <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Enter Category Name.">
+                                <label for="role_name">Role Name</label>
+                                <input type="text" class="form-control" name="role_name" id="role_name" placeholder="Enter Role Name.">
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
@@ -122,13 +122,13 @@
                     "autoWidth": false,
                     "responsive": true,
                     "ajax": {
-                        url: '{{route("category.list")}}',
+                        url: '{{route("role.list")}}',
                     },
                     "columns": [{
-                            data: 'cat_id'
+                            data: 'role_id'
                         },
                         {
-                            data: 'cat_name'
+                            data: 'role_name'
                         },
                         {
                             data: 'action'
@@ -148,11 +148,11 @@
                 event.preventDefault();
                 var formData = $(this).serializeArray();
                 $.ajax({
-                    url : '{{route("category.add")}}',
+                    url : '{{route("role.add")}}',
                     type : 'get',
                     data : formData,
                     success : function(res){
-                        $('#category_model').modal('hide');
+                        $('#role_modal').modal('hide');
                         res = JSON.parse(res);
                         if(res.status == 200){
                             toastr.success(res.message);
@@ -168,21 +168,21 @@
                 });
             });
 
-            $('#category_model').on('show.bs.modal',function(event){
+            $('#role_modal').on('show.bs.modal',function(event){
                 let button = $(event.relatedTarget);
                 if(button.hasClass('editBtn')){
                     console.log(button)
                     let data_id = button.data('id');
-                    let category_name = button.data('categoryname');
-                    $('#editCat').html('<input type="hidden" name="category_id" value="'+data_id+'">');
-                    $('#category_name').val(category_name);
+                    let role_name = button.data('role_name');
+                    $('#editCat').html('<input type="hidden" name="role_id" value="'+data_id+'">');
+                    $('#role_name').val(role_name);
                 }
 
             });
 
-            $('#category_model').on('hidden.bs.model',function(){
+            $('#role_modal').on('hidden.bs.model',function(){
                 $('#editCat').empty();
-                $('#category_name').val('');
+                $('#role_name').val('');
             });
         });
     </script>

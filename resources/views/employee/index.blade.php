@@ -17,12 +17,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Category</h1>
+                            <h1 class="m-0">Employees</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Category</li>
+                                <li class="breadcrumb-item active">Employees</li>
                             </ol>
                         </div>
                     </div>
@@ -35,34 +35,36 @@
                     <nav class="header navbar navbar-expand navbar-white navbar-light">
 
                         <ul class="navbar-nav">
-                            <h5>Category List</h5>
+                            <h5>Employee List</h5>
                         </ul>
 
                         <ul class="navbar-nav ml-auto">
-                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#category_model">
+                            <a class="btn btn-app" id="addCat" data-toggle="modal" data-target="#employee_modal">
                                 <i class="fas fa-sm fa-plus"></i> Add
                             </a>
                         </ul>
                     </nav>
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                        </div>
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                     @endif
                     @if ($message = Session::get('error'))
-                        <div class="alert alert-danger alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                        </div>
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                     @endif
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Category Id</th>
-                                    <th>Category Name</th>
-                                    <th>Actions
+                                    <th>Id</th>
+                                    <th>Employee Name</th>
+                                    <th>Role</th>
+                                    <th>Joined Date</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>
@@ -74,11 +76,11 @@
 
         </div>
 
-        <div class="modal fade" id="category_model">
+        <div class="modal fade" id="employee_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Update Category</h4>
+                        <h4 class="modal-title">Update Employee</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -88,8 +90,20 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <div id="editCat"></div>
-                                <label for="category_name">Category Name</label>
-                                <input type="text" class="form-control" name="category_name" id="category_name" placeholder="Enter Category Name.">
+                                <label for="employee_name">Employee Name</label>
+                                <input type="text" class="form-control" name="employee_name" id="employee_name" placeholder="Enter Employee Name.">
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control select2bs4" name="role_id" id="role_id" style="width: 100%;">
+                                    @foreach($role as $val)
+                                    <option  value={{ $val->role_id }}>{{ $val->role_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <lable id="join_date">Joined Date</lable>
+                                <input type="date" class="form-control" name="join_date" id="join_date">
                             </div>
                         </div>
                         <div class="modal-footer justify-content-between">
@@ -112,7 +126,8 @@
     <script>
         $(function() {
             var loadtable;
-            function loadDatatable(){
+
+            function loadDatatable() {
                 loadtable = $('#example2').DataTable({
                     "paging": false,
                     "lengthChange": false,
@@ -122,13 +137,19 @@
                     "autoWidth": false,
                     "responsive": true,
                     "ajax": {
-                        url: '{{route("category.list")}}',
+                        url: '{{route("employee.list")}}',
                     },
                     "columns": [{
-                            data: 'cat_id'
+                            data: 'employee_id'
                         },
                         {
-                            data: 'cat_name'
+                            data: 'name'
+                        },
+                        {
+                            data: 'role'
+                        },
+                        {
+                            data: 'join_date'
                         },
                         {
                             data: 'action'
@@ -139,52 +160,58 @@
             }
             loadDatatable();
 
-            $('#cat_form').on('submit',function(event){
+            $('#cat_form').on('submit', function(event) {
                 $.ajaxSetup({
                     headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 event.preventDefault();
                 var formData = $(this).serializeArray();
                 $.ajax({
-                    url : '{{route("category.add")}}',
-                    type : 'get',
-                    data : formData,
-                    success : function(res){
-                        $('#category_model').modal('hide');
+                    url: "{{route('employee.add')}}",
+                    type: 'get',
+                    data: formData,
+                    success: function(res) {
+                        $('#employee_modal').modal('hide');
                         res = JSON.parse(res);
-                        if(res.status == 200){
+                        if (res.status == 200) {
                             toastr.success(res.message);
                             $('#example2 tbody').empty();
-                            if(loadtable){
+                            if (loadtable) {
                                 loadtable.destroy();
                             }
                             loadDatatable();
-                        }else{
+                        } else {
                             toastr.error(res.message);
                         }
                     }
                 });
             });
 
-            $('#category_model').on('show.bs.modal',function(event){
+            $('#employee_modal').on('show.bs.modal', function(event) {
                 let button = $(event.relatedTarget);
-                if(button.hasClass('editBtn')){
-                    console.log(button)
+                if (button.hasClass('editBtn')) {
                     let data_id = button.data('id');
-                    let category_name = button.data('categoryname');
-                    $('#editCat').html('<input type="hidden" name="category_id" value="'+data_id+'">');
-                    $('#category_name').val(category_name);
+                    let employee_name = button.data('name');
+                    $('#editCat').html('<input type="hidden" name="employee_id" value="' + data_id + '">');
+                    $('#employee_name').val(employee_name);
+                    $('#role_id').val(button.data('role'));
+                    console.log(button.data('joindate'));
+                    $('#join_date').val(button.data('joindate'));
                 }
 
             });
 
-            $('#category_model').on('hidden.bs.model',function(){
-                $('#editCat').empty();
-                $('#category_name').val('');
-            });
         });
+        $('#employee_modal').on('hide.bs.modal', function() {
+                $('#editCat').empty();
+                $('#employee_name').val('');
+                $('#role_id').val('');
+                $('#join_date').val('');
+        });
+
+
     </script>
 
 </body>

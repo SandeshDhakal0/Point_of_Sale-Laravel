@@ -23,7 +23,9 @@ class CategoryController extends Controller
                     'action' => '<button class="btn btn-sm btn-outline-success editBtn m-4" data-categoryname="'.$d->category_name.'" data-id="'.$d->category_id.'" data-toggle="modal" data-target="#category_model"><i class="fas fa-edit" style="color:green;"></i></button><a class="btn btn-sm btn-outline-danger deleteBtn" href="'.route('category.delete',array('id'=>$d->category_id)).'"><i class="fas fa-trash-alt" style="color:red;"></i></a>',
                 );
             }
-            echo json_encode($return_data);
+            if(count($return_data) > 0){
+                echo json_encode($return_data);
+            }
             exit;
         }
         return view('category.index');
@@ -36,7 +38,7 @@ class CategoryController extends Controller
             if($request->input('category_id') && ($request->input('category_id') != '')){
                 $cat_id = $request->input('category_id');
             }
-            if(Category::where('category_name',$catData['category_name']) && $cat_id != ''){
+            if(Category::where('category_name',$catData['category_name'])->get()[0]){
                 echo json_encode(array('status'=>400,'message'=>'Category already exists.'));
             }else{
                 if(isset($cat_id) && $cat_id != ''){
@@ -58,7 +60,7 @@ class CategoryController extends Controller
     public function find(Request $request){
         if($request->ajax() && $request->isMethod('GET')){
             $cat_id = $request->input('category_id');
-            $catData = Category::where('category_id',$cat_id);
+            $catData = Category::where('category_id',$cat_id)->get()[0];
             if($catData){
                 echo json_encode(array('status'=>400,'data'=>$catData));
             }else{
@@ -71,7 +73,10 @@ class CategoryController extends Controller
     public function delete($id){
 
         $id = intval($id);
-        $cat = Category::where('category_id',$id);
+        $cat = Category::where('category_id',$id)->get()[0];
+        // if($cat->subcategory){
+        //     return back()->with('error','Please delete it\'s subcategory first');
+        // }
         if($cat){
             if(Category::where('category_id',$id)->delete()){
                 return back()->with('success','Successfully deleted Category');

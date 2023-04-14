@@ -20,7 +20,7 @@ class CreateSalesTable extends Migration
             $table->decimal('sold_quantity');
             $table->decimal('sold_amount');
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('product_id')->on('product');
+            $table->foreign('product_id')->references('product_id')->on('products');
             $table->timestamps();
         });
     }
