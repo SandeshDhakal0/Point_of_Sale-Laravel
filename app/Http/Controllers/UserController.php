@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Image;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +15,33 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('user.dashboard');
+
+        $categories = Category::all();
+        $ret = array();
+
+        foreach($categories as $cat){
+            $ret['category'][] = $cat;
+
+            $product = Product::where(['category_id'=>$cat->category_id])->get();
+            $finalprod = array();
+            foreach($product as $p){
+                $finalprod[] = array(
+                    'product_id' => $p->product_id,
+                    'product_name' => $p->product_name,
+                    'category_id' => $p->category_id,
+                    'price' => $p->sales_price,
+                    'images' => Image::where('product_id',$p->product_id)->get()
+                );
+            }
+            $finalprod['cat_id'] = $cat->category_id;
+            $ret['product'][] = $finalprod;
+
+        }
+        return view('user.dashboard')->with('response',$ret);
     }
+
+
+
 
     public function myprofile(Request $request){
 

@@ -1,0 +1,253 @@
+
+body {
+  transition: background-color .5s;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #161544;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 10%;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 30px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+@media only screen and (max-width: 450px) {
+ .col-xs-11{
+  justify-content: end !important;
+ }
+ .nav .nav-tabs{
+  display: flex !important;
+  justify-content: center !important;
+ }
+}
+
+.tabbutton {
+  background-color: #0078d0;
+  border: 0;
+  border-radius: 15px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui,-apple-system,system-ui,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  outline: 0;
+  padding: 7px 11px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  
+}
+
+.tabbutton:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  content: "";
+  height: 50%;
+  left: 4%;
+  opacity: .5;
+  position: absolute;
+  top: 0;
+  transition: all .3s;
+  width: 92%;
+}
+
+.tabbutton:hover {
+  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  . {
+    padding: 16px 48px;
+  }
+}
+.cardimgsize{
+  height: 50px;
+  width: auto;
+   
+}
+
+
+.button {
+  display: block;
+  background-color: $color;
+  width: 300px;
+  height: 100px;
+  line-height: 100px;
+  margin: auto;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,.3);
+  transition: $transition;
+  
+  span,
+  .icon {
+    display: block;
+    height: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+  }
+  
+  span {
+    width: 72%;
+    line-height: inherit;
+    font-size: 22px;
+    text-transform: uppercase;
+    left: 0;
+    transition: $transition;
+    
+    &:after {
+      content: '';
+      background-color: $color-dark;
+      width: 2px;
+      height: 70%;
+      position: absolute;
+      top: 15%;
+      right: -1px;
+    }
+  }
+  
+  .icon {
+    width: 28%;
+    right: 0;
+    transition: $transition;
+    
+    .fa {
+      font-size: 30px;
+      vertical-align: middle;
+      transition: $transition, height #{$speed} ease;
+    }
+    
+    .fa-remove {
+      height: 36px;
+    }
+    
+    .fa-check {
+      display: none;
+    }
+  }
+  
+  &.success,
+  &:hover {
+    
+    span {
+      left: -72%;
+      opacity: 0;
+    }
+    
+    .icon {
+      width: 100%;
+      
+      .fa {
+        font-size: 45px;
+      }
+    }
+  }
+  
+  &.success {
+    background-color: #27ae60;
+    
+    .icon {
+      
+      .fa-remove {
+        display: none;
+      }
+      
+      .fa-check {
+        display: inline-block;
+      }
+    }
+  }
+  
+  &:hover {
+    opacity: .9;
+    
+    .icon .fa-remove {
+      height: 46px;
+    }
+  }
+  
+  &:active {
+    opacity: 1;
+  }
+}
+.navbarbutton{
+  padding: 17px 40px;
+ border-radius: 10px;
+ border: 0;
+ background-color: #4169E1;
+ letter-spacing: 1.5px;
+ font-size: 15px;
+ transition: all .3s ease;
+ box-shadow: #4169E1 0px 10px 0px 0px;
+ color: hsl(0, 0%, 100%);
+}
+.navbarbutton:hover{
+  box-shadow: rgb(67, 46, 201) 0px 7px 0px 0px;
+}
+.navbarbutton:active{
+  background-color: #73c126;
+ box-shadow: rgb(4, 79, 10) 0px 0px 0px 0px;
+ transform: translateY(5px);
+ transition: 200ms;
+}
+
+.modal-dialog {
+  max-width: 700px; /* set the maximum width */
+}
+
+.modal-content {
+  height: 500px; /* set the height */
+}
+
+
