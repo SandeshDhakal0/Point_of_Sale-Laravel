@@ -10,6 +10,7 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -159,19 +160,21 @@ class ProductController extends Controller
     public function delete($id)
     {
 
-        $id = intval($id);
-        $imgs = Image::where('product_id',$id)->get();
-        foreach($imgs as $i){
-            Storage::delete('public/products/' . $i['image_path']);
-            Image::where('id',$i['id'])->delete();
-
+        try {
+            $id = intval($id);
+            $imgs = Image::where('product_id', $id)->get();
+            foreach ($imgs as $i) {
+                Storage::delete('public/products/' . $i['image_path']);
+                Image::where('id', $i['id'])->delete();
+            }
+            $del = Product::where('product_id', $id)->delete();
+            if ($del) {
+                return back()->with('success', 'Successfully deleted Product');
+            } else {
+                return back()->with('error', 'Unable to delete product');
+            }
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return back()->with('error', 'Unable to delete product. The product has associated sales.');
         }
-        $del = Product::where('product_id',$id)->delete();
-        if($del){
-            return back()->with('success','Successfully deleted Product');
-        }else{
-            return back()->with('error','Unable to delete product');
-        }
-
     }
 }
