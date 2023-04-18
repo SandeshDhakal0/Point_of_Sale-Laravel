@@ -14,5 +14,7 @@
     <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
 
     <link rel="stylesheet" href="{{asset('assets/css/adminlte.min.css?v=3.2.0')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
 </head>

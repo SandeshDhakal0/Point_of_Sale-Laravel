@@ -60,7 +60,7 @@ class ProductController extends Controller
         if ($request->isMethod('POST')) {
             $request->validate([
                 'product_name' => 'required',
-                'product_brand' => 'required|min:5',
+                'product_brand' => 'required',
                 'category_id' => 'required',
                 'stock_quantity' => 'required',
                 'sales_price' => 'required',
@@ -129,8 +129,8 @@ class ProductController extends Controller
                         Image::create(['product_id'=>$request->input('product_id'),'image_path'=>$filename]);
                     }else{
                         $res->image()->create(['image_path'=>$filename]);
-                    }
-
+                    }+
+                  
                 }
             }
             if ($res) {

@@ -57,7 +57,7 @@
                         </div>
                     @endif
                     <div class="card-body">
-                        <table id="example2" class="table table-bordered table-hover">
+                        <table id="example2" class="display">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -90,9 +90,9 @@
             var loadtable;
             function loadDatatable(){
                 loadtable = $('#example2').DataTable({
-                    "paging": false,
+                    "paging": true,
                     "lengthChange": false,
-                    "searching": false,
+                    "searching": true,
                     "ordering": true,
                     "info": false,
                     "autoWidth": false,
