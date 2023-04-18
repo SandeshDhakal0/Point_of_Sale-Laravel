@@ -4,7 +4,7 @@
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
                     <div class="info">
-                        <a href="javascript;" class="d-block">{{ Auth::user()->name }}</a>
+                        <img src="{{asset('logo/logo.png')}}" alt="logo">
                     </div>
                 </div>
 

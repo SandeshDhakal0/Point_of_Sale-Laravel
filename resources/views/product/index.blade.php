@@ -91,12 +91,13 @@
             function loadDatatable(){
                 loadtable = $('#example2').DataTable({
                     "paging": true,
-                    "lengthChange": false,
-                    "searching": true,
-                    "ordering": true,
-                    "info": false,
-                    "autoWidth": false,
-                    "responsive": true,
+    "pageLength": 5,
+    "lengthChange": false,
+    "searching": true,
+    "ordering": true,
+    "info": false,
+    "autoWidth": false,
+    "responsive": true,
                     "ajax": {
                         url: '{{route("product.list")}}',
                     },

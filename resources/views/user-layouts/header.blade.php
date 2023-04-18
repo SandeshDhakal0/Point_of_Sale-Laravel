@@ -28,7 +28,7 @@
 
             <div class="col-10 col-sm-1 col-md-1 col-lg-1 d-flex justify-content-end align-items-center">
                 <div class="dropdown justify-content-end">
-                    <img src="images/Basic_Ui_(186).jpg" alt="profile" style="height: 50px;width: 50px; border-radius: 50%;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{asset('logo/user.png')}}" alt="profile" style="height: 50px;width: 50px; border-radius: 50%;" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
 
                     <div class="dropdown-menu justify-content-end" aria-labelledby="dropdownMenu2">
                         <button class="dropdown-item" type="button">Profile</button>

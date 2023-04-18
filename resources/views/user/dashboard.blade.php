@@ -27,24 +27,26 @@
                 <div class="tab-pane <?php if($i == 0){ $i++; echo 'active'; } ?>" id={{$prod['cat_id']}}>
                     <section>
                         <div class="row">
-                            @if(count($prod) > 1)
-                                @for($i = 0 ; $i < count($prod)-1; $i++)
-                                    <div class="col-sm-8 col-md-12 col-lg-2 mb-4 mb-md-0 mt-2 mb-4">
-                                        <div class="card rounded-5 shadow-1-strong mb-5" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; ">
-                                            <img src={{ asset('storage/products/'.$prod[$i]['images'][0]->image_path) }} class="card-img-top m-1 cardimgsize" alt="Laptop" style="opacity: 1; padding-right: 5%;">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between mb-3">
-                                                    <h5 class="mb-0">{{$prod[$i]['product_name']}}</h5>
-                                                </div>
-                                                <div class="d-flex justify-content-between mb-3">
-                                                    <h5 class="text-dark mb-0">Rs. {{$prod[$i]['price']}}</h5>
-                                                </div>
-
-                                            </div>
+                        @if(count($prod) > 1)
+                        @for($i = 0 ; $i < count($prod)-1; $i++)
+                            <div class="col-sm-8 col-md-12 col-lg-2 mb-4 mb-md-0 mt-2 mb-4">
+                                <div class="card rounded-5 shadow-1-strong mb-5" style="box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; ">
+                                    @if(count($prod[$i]['images']) > 0)
+                                        <img src="{{ asset('storage/products/'.$prod[$i]['images'][0]->image_path) }}" class="card-img-top m-1 cardimgsize" alt="Laptop" style="opacity: 1; padding-right: 5%;">
+                                    @endif
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <h5 class="mb-0">{{$prod[$i]['product_name']}}</h5>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <h5 class="text-dark mb-0">Rs. {{$prod[$i]['price']}}</h5>
                                         </div>
                                     </div>
-                                @endfor
-                            @endif
+                                </div>
+                            </div>
+                        @endfor
+                    @endif
+
                         </div>
                     </section>
                 </div>
@@ -121,7 +123,7 @@
                                         </td>
                                         <td width="60%">
                                             <div class="font-weight-bold" style="margin-left: 10px
-                                            ;">Men's Sports cap
+                                            ;">Preston
                                             <div class="product-qty">
                                                 <span class="d-block"><input type="number" name="number" style="width:44px;padding: 4px 5px 5px 7px;font-size: 15px;" value='1'></span>
                                                 <span>121.2.34.1</span>
@@ -129,7 +131,7 @@
                                         </td>
                                         <td width="20%">
                                             <div class="text-right">
-                                                <span class="font-weight-bold d-block">$67.50
+                                                <span class="font-weight-bold d-block">Rs.940
                                                     <ul class="list-inline m-0">
                                                         <span class="d-flex">
                                                             <li class="list-inline-item d-flex">
@@ -155,8 +157,7 @@
                                             ITEM: <br> Quantity: <br> Item no:
                                         </td>
                                         <td width="60%">
-                                            <div class="font-weight-bold" style="margin-left: 10px;">Men's
-                                                T-shirt
+                                            <div class="font-weight-bold" style="margin-left: 10px;">Lara
                                                 <div class="product-qty">
                                                     <span class="d-block"><input type="number" name="number" style="width:44px;padding: 4px 5px 5px 7px;font-size: 15px;" value='1'></span>
                                                     <span>546.5.56.7</span>
@@ -164,7 +165,7 @@
                                             </td>
                                             <td width="20%">
                                                 <div class="text-right">
-                                                    <span class="font-weight-bold">$77.50</span>
+                                                    <span class="font-weight-bold">Rs.994</span>
                                                     <span class="d-flex">
                                                         <li class="list-inline-item d-flex">
                                                             <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip"
@@ -197,7 +198,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span>$168.50</span>
+                                                        <span>Rs.1984</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -212,7 +213,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span>$7.65</span>
+                                                        <span>Rs.84</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -224,7 +225,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span class="text-success">$168.50</span>
+                                                    <input type="number" id="discount-input" name="discount" step="0.01" placeholder="Rs.0.00">
                                                     </div>
                                                 </td>
                                             </tr>
@@ -236,7 +237,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="text-right">
-                                                        <span class="font-weight-bold">$238.50</span>
+                                                        <span class="font-weight-bold">Rs.1800</span>
                                                     </div>
                                                 </td>
                                             </tr>
