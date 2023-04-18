@@ -129,9 +129,10 @@ class ProductController extends Controller
                         Image::create(['product_id'=>$request->input('product_id'),'image_path'=>$filename]);
                     }else{
                         $res->image()->create(['image_path'=>$filename]);
-                    }+
-                  
+                    }
                 }
+                  
+                
             }
             if ($res) {
                 return redirect()->route('product.list')->with('success', 'Successfully Added to the List.');
