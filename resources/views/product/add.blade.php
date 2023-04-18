@@ -55,7 +55,6 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="product_name" id="product-name" placeholder="Enter product name.">
                                     <label for="product-name">Name</label>
                                     <input type="text" class="form-control" name="product_name" id="product-name" placeholder="Enter product name.">
                                 </div>

@@ -19,8 +19,10 @@ class UserMiddleware
     {
 
         //Admin role = 1
-        //User role = 0
+        //User role = 0  // Default Role (and other roles can be added)
+        
         if (Auth::check()) {
+           
             if (Auth::user()->role == 0) {
                 return $next($request);
             } else {
