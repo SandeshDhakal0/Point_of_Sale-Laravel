@@ -94,4 +94,8 @@ class UserController extends Controller
         return view('changepass');
 
     }
+
+    public function sales(Request $request){
+        return view('user.sales');
+    }
 }
