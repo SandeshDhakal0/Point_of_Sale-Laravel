@@ -147,4 +147,26 @@ class UserController extends Controller
         echo 'Invalid Credentials';die;
 
     }
+
+    public function dailysales(Request $request){
+        if($request->ajax()){
+            $return_data = array();
+            $data = Sale::orderBy('updated_at', 'desc')->get();
+
+            foreach($data as $d){
+                $return_data['data'][] = array(
+                    'id' => $d->sales_id,
+                    'to_user' => $d->sold_to_user_name,
+                    'sold_quantity' => $d->sold_quantity,
+                    'product'=> Product::where('product_id',$d->product_id)->get()[0]['product_name'],
+                    'amount' => $d->sold_amount,
+                );
+            }
+            echo json_encode($return_data);
+            exit;
+        }
+        $data = Product::all();
+        $users = User::where('role',0)->get();
+        return view('user.dailysales',['product' => $data, 'users' => $users]);
+    }
 }

@@ -432,7 +432,4 @@ function addProduct(id,productName, price) {
 
     @include('user-layouts.scripts')
 
-    <script>
-
-    </script>
 </html>

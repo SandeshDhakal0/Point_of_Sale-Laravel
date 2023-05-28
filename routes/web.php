@@ -75,6 +75,7 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
 Route::prefix('user')->middleware(['auth','isUser'])->group(function(){
     Route::get('/dashboard',[UserController::class,'index'])->name('user.index');
     Route::post('/sales',[UserController::class,'sales'])->name('user.sales');
+    Route::get('/daily-sales',[UserController::class,'dailysales'])->name('user.dailysales');
 });
 
 Route::get('/logout', [LogoutController::class,'perform'])->name('logout');

@@ -9,8 +9,8 @@
                         <button class="btn btn-primary btn-square-md" type="button" style="width:100px;height:47px;"><i class="fa fa-search"></i>Search</button>
                         <button class="btn btn-light btn-square-md" type="button" style="margin-right: 10px;width: 100px;right: 0;position: absolute;height: 47px;"><i class="fa-solid fa-2xl fa-barcode"></i></button>
                     </div>
-                    <a href="#"><button class="navbarbutton w-100 mb-3">POS</button></a>
-                    <a href="sales.html"><button class="navbarbutton w-100 mb-3">Sales</button></a>
+                    <a href="{{ route('user.index') }}"><button class="navbarbutton w-100 mb-3">POS</button></a>
+                    <a href="{{ route('user.dailysales') }}"><button class="navbarbutton w-100 mb-3">Sales</button></a>
                     <a href="#"><button class="navbarbutton w-100 mb-3">Inventory</button></a>
                     <a href="#"><button class="navbarbutton w-100 mb-3">Invoice</button></a>
                     <a href="#"><button class="navbarbutton w-100 mb-3">Customer</button></a>
