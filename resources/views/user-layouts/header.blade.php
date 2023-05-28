@@ -32,7 +32,7 @@
 
                     <div class="dropdown-menu justify-content-end" aria-labelledby="dropdownMenu2">
                         <button class="dropdown-item" type="button">Profile</button>
-                        <button class="dropdown-item" type="button">Sign Out</button>
+                        <a href={{ route('logout' ) }} class="dropdown-item" type="button">Sign Out</a>
 
                     </div>
                 </div>
