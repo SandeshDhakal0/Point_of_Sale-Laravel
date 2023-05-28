@@ -42,7 +42,7 @@
                                             <h5 class="text-dark mb-0">Rs. {{$prod[$i]['price']}}</h5>
                                         </div>
                                         <!-- Existing code -->
-         <button onclick="addProduct('{{$prod[$i]['product_name']}}', '{{$prod[$i]['price']}}')">Add to Cart</button>
+         <button onclick="addProduct('{{$prod[$i]['product_id']}}','{{$prod[$i]['product_name']}}', '{{$prod[$i]['price']}}')">Add to Cart</button>
          <!-- Existing code -->
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                 }
 
     </script>
-            
+
 
 
 
@@ -88,17 +88,17 @@
         <!-- <div class="col-4 col-sm-4 col-xs-12" style="padding-top: 4.1%;">
             <div class="card">
                 <div class="invoice p-3 m-1">
-                  
+
                         <div id="qr-reader" style="width:100%"></div>
                         <div id="qr-reader-results"></div>
                         <div class="product border-bottom table-responsive">
                             <table class="table table-borderless">
                                 <tbody id="product-list>
-                                   
-                                   
+
+
                                     </tbody>
                             </table>
-                        
+
                             <div class="row d-flex justify-content-end">
                                 <div class="just">
                                     <table class="table table-borderless">
@@ -178,19 +178,27 @@
       </table>
     </div>
     <div class="subtotal">
+        <form action="{{ route('user.sales') }}" method="POST">
+            @csrf
       <table class="table table-borderless">
         <tbody id="subtotal-list">
           <tr>
             <td width="80%">Subtotal:</td>
             <td width="20%" id="subtotal-amount">Rs. 0</td>
+            <input type="hidden" name="total_amt" id="total_amt">
           </tr>
           <tr>
             <td width="80%">Discount:</td>
             <td width="20%" id="discount-amount">Rs. 0</td>
+            <input type="hidden" name="disc_amt" id="disc_amt">
           </tr>
+          <input type="hidden" name="product_ids" id="product_ids">
+          <input type="hidden" name="product_price" id="product_price">
+          <input type="hidden" name="product_quantity" id="product_quantity">
         </tbody>
       </table>
-      <button class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float:right;">Proceed Next</button>
+      <button class="btn btn-success" type="submit" id="proceed-next">Proceed Next</button>
+        </form>
     </div>
   </div>
 </div>
@@ -200,18 +208,51 @@
 <script>
 
 function updateSubtotal() {
-  var subtotal = 0;
-
+  let subtotal = 0;
+  document.getElementById('product_price').value = null;
+  document.getElementById('product_quantity').value = null;
+  document.getElementById('product_ids').value = null;
   // Iterate over each product row
   var productRows = document.querySelectorAll('#product-list tr');
   productRows.forEach(function (row) {
-    var priceElement = row.querySelector('.font-weight-bold');
+    var priceElement = row.querySelector('.price-amt');
     var priceText = priceElement.textContent;
     var price = parseFloat(priceText.replace('Rs. ', ''));
     var quantityInput = row.querySelector('input[name="number"]');
     var quantity = parseInt(quantityInput.value);
     var rowTotal = price * quantity;
+
+
+    var curr_id = row.querySelector('.price-id').textContent;
+    var ids = document.getElementById('product_ids').value;
+    if(ids == null || ids == ''){
+        ids = curr_id;
+    }else{
+        ids = ids+','+curr_id;
+    }
+    document.getElementById('product_ids').value = ids;
+
+    var q = document.getElementById('product_quantity').value;
+    if(q == null || q == ''){
+        q = quantity;
+    }else{
+        q = q+','+quantity;
+    }
+    document.getElementById('product_quantity').value = q;
+
+    var pr = document.getElementById('product_price').value;
+    if(pr == null || pr == ''){
+        pr = price;
+    }else{
+        pr = pr+','+price;
+    }
+    document.getElementById('product_price').value = pr;
+
+
     subtotal += rowTotal;
+
+
+
   });
 
   // Calculate discount if available
@@ -224,11 +265,13 @@ function updateSubtotal() {
   var subtotalAmount = document.getElementById('subtotal-amount');
   var discountAmount = document.getElementById('discount-amount');
   subtotalAmount.textContent = 'Rs. ' + subtotal.toFixed(2);
+  document.getElementById('total_amt').value = subtotal.toFixed(2);
+  document.getElementById('disc_amt').value = discount.toFixed(2);
   discountAmount.textContent = 'Rs. ' + discount.toFixed(2);
 }
 
 
-function addProduct(productName, price) {
+function addProduct(id,productName, price) {
   var productList = document.getElementById('product-list');
 
   var newRow = document.createElement('tr');
@@ -249,7 +292,8 @@ function addProduct(productName, price) {
     </td>
     <td width="20%">
       <div class="text-right">
-        <span class="font-weight-bold">Rs. ${price}</span>
+        <span class="font-weight-bold price-amt">Rs. ${price}</span>
+        <span class="price-id d-none">${id}</span>
         <span class="d-flex">
           <li class="list-inline-item d-flex">
             <button class="btn btn-primary btn-sm rounded-0 plus-button" type="button" data-toggle="tooltip"
@@ -383,8 +427,12 @@ function addProduct(productName, price) {
         </div>
 
     </body>
-    
+
 
 
     @include('user-layouts.scripts')
+
+    <script>
+
+    </script>
 </html>

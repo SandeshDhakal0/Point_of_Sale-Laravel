@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\Sale;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,6 +97,54 @@ class UserController extends Controller
     }
 
     public function sales(Request $request){
-        return view('user.sales');
+        if($request->isMethod('POST')){
+            if($request->input('_token') && $request->input('_token') != ''){
+                $total_amt = $request->input('total_amt');
+                $disc_amt = $request->input('disc_amt');
+                $payable_amt = $total_amt - $disc_amt;
+
+                $product_ids = explode(',',$request->input('product_ids'));
+                $product_quantity = explode(',',$request->input('product_quantity'));
+                $product_price = explode(',',$request->input('product_price'));
+                $ids = array();
+                $quantity = array();
+                $amount = array();
+                foreach($product_ids as $key => $id){
+                    if(empty($ids)){
+                        $ids[] = $id;
+                        $quantity[] = (int) $product_quantity[$key];
+                        $amount[] = (int) $product_price[$key];
+                    }else{
+                        if(in_array($id,$ids)){
+                            $k = array_search($id,$ids);
+                            $quantity[$k] += (int) $product_quantity[$key];
+                            $amount[$k] += (int) $product_price[$key];
+                        }else{
+                            $ids[] = $id;
+                            $quantity[] = (int) $product_quantity[$key];
+                            $amount[] = (int) $product_price[$key];
+                        }
+                    }
+                }
+                foreach($ids as $key=>$id){
+                    $res = Sale::create(array(
+                        'sold_to_user_id' => Auth::user()->id,
+                        'sold_to_user_name' => Auth::user()->name,
+                        'sold_quantity' => $quantity[$key],
+                        'sold_amount' => $amount[$key],
+                        'product_id' => $id,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ));
+                    if(!$res){
+                        dd('Something went wrong !!!');
+                    }
+                }
+
+                return view('user.sales')->with('payable',$payable_amt);
+            }
+        }
+        echo 'Invalid Credentials';die;
+
     }
 }

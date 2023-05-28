@@ -25,7 +25,8 @@ class UserMiddleware
             if (Auth::user()->role == 0) {
                 return $next($request);
             } else {
-                return redirect('./home')->with('message', 'Access denied as User');
+                return redirect('./user/dashboard')->with('message', 'Access denied as User');
+
             }
         } else {
             return redirect('./login')->with('message', 'Login required.');
