@@ -41,6 +41,9 @@
                                         <div class="d-flex justify-content-between mb-3">
                                             <h5 class="text-dark mb-0">Rs. {{$prod[$i]['price']}}</h5>
                                         </div>
+                                        <!-- Existing code -->
+         <button onclick="addProduct('{{$prod[$i]['product_name']}}', '{{$prod[$i]['price']}}')">Add to Cart</button>
+         <!-- Existing code -->
                                     </div>
                                 </div>
                             </div>
@@ -73,119 +76,29 @@
                         curr.classList.add('active');
                     });
                 }
-            </script>
+
+    </script>
+            
 
 
 
 
             <!-- INVOICE -->
         </div>
-        <div class="col-4 col-sm-4 col-xs-12" style="padding-top: 4.1%;">
+        <!-- <div class="col-4 col-sm-4 col-xs-12" style="padding-top: 4.1%;">
             <div class="card">
                 <div class="invoice p-3 m-1">
-                    <!--  <h5>ITEMS BILLED</h5>
-                        <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
-                            <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="py-2">
-                                                <span class="d-block text-muted">Order Date</span>
-                                                <span>12 Jan,2018</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="py-2">
-                                                <span class="d-block text-muted">Order No</span>
-                                                <span>MT12332345</span>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="py-2">
-                                                <span class="d-block text-muted">Payment</span>
-                                                <span><img src="https://img.icons8.com/color/48/000000/mastercard.png" width="20" /></span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div> -->
+                  
                         <div id="qr-reader" style="width:100%"></div>
                         <div id="qr-reader-results"></div>
                         <div class="product border-bottom table-responsive">
                             <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <td width="20%">
-                                            ITEM: <br> Quantity: <br> Item no:
-
-                                        </td>
-                                        <td width="60%">
-                                            <div class="font-weight-bold" style="margin-left: 10px
-                                            ;">Preston
-                                            <div class="product-qty">
-                                                <span class="d-block"><input type="number" name="number" style="width:44px;padding: 4px 5px 5px 7px;font-size: 15px;" value='1'></span>
-                                                <span>121.2.34.1</span>
-                                            </div>
-                                        </td>
-                                        <td width="20%">
-                                            <div class="text-right">
-                                                <span class="font-weight-bold d-block">Rs.940
-                                                    <ul class="list-inline m-0">
-                                                        <span class="d-flex">
-                                                            <li class="list-inline-item d-flex">
-                                                                <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip"
-                                                                data-placement="top" title="Add"><i class="fa fa-plus"></i></button>
-                                                            </li>
-                                                            <li class="list-inline-item d-flex">
-                                                                <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
-                                                                data-placement="top" title="Delete"><i class="fa fa-minus"></i></button>
-                                                            </li>
-                                                            <li class="list-inline-item">
-                                                                <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
-                                                                data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                                            </li>
-                                                        </span>
-                                                    </ul>
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%">
-                                            ITEM: <br> Quantity: <br> Item no:
-                                        </td>
-                                        <td width="60%">
-                                            <div class="font-weight-bold" style="margin-left: 10px;">Lara
-                                                <div class="product-qty">
-                                                    <span class="d-block"><input type="number" name="number" style="width:44px;padding: 4px 5px 5px 7px;font-size: 15px;" value='1'></span>
-                                                    <span>546.5.56.7</span>
-                                                </div>
-                                            </td>
-                                            <td width="20%">
-                                                <div class="text-right">
-                                                    <span class="font-weight-bold">Rs.994</span>
-                                                    <span class="d-flex">
-                                                        <li class="list-inline-item d-flex">
-                                                            <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip"
-                                                            data-placement="top" title="Add"><i class="fa fa-plus"></i></button>
-                                                        </li>
-                                                        <li class="list-inline-item d-flex">
-                                                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
-                                                            data-placement="top" title="Delete"><i class="fa fa-minus"></i></button>
-                                                        </li>
-                                                        <li class="list-inline-item">
-                                                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
-                                                            data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                                        </li>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                <tbody id="product-list>
+                                   
+                                   
                                     </tbody>
-                                </table>
-                            </div>
+                            </table>
+                        
                             <div class="row d-flex justify-content-end">
                                 <div class="just">
                                     <table class="table table-borderless">
@@ -250,7 +163,160 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <div class="col-4 col-sm-4 col-xs-12" style="padding-top: 4.1%;">
+        <div class="card">
+  <div class="invoice p-3 m-1">
+    <div id="qr-reader" style="width:100%"></div>
+    <div id="qr-reader-results"></div>
+    <div class="product border-bottom table-responsive">
+      <table class="table table-borderless">
+        <tbody id="product-list">
+          <!-- Existing product rows -->
+        </tbody>
+      </table>
+    </div>
+    <div class="subtotal">
+      <table class="table table-borderless">
+        <tbody id="subtotal-list">
+          <tr>
+            <td width="80%">Subtotal:</td>
+            <td width="20%" id="subtotal-amount">Rs. 0</td>
+          </tr>
+          <tr>
+            <td width="80%">Discount:</td>
+            <td width="20%" id="discount-amount">Rs. 0</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-success" data-toggle="modal" data-target="#myModal" style="float:right;">Proceed Next</button>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+function updateSubtotal() {
+  var subtotal = 0;
+
+  // Iterate over each product row
+  var productRows = document.querySelectorAll('#product-list tr');
+  productRows.forEach(function (row) {
+    var priceElement = row.querySelector('.font-weight-bold');
+    var priceText = priceElement.textContent;
+    var price = parseFloat(priceText.replace('Rs. ', ''));
+    var quantityInput = row.querySelector('input[name="number"]');
+    var quantity = parseInt(quantityInput.value);
+    var rowTotal = price * quantity;
+    subtotal += rowTotal;
+  });
+
+  // Calculate discount if available
+  var discount = 0;
+  if (subtotal >= 1000) {
+    discount = subtotal * 0.1; // 10% discount
+  }
+
+  // Update the subtotal and discount rows
+  var subtotalAmount = document.getElementById('subtotal-amount');
+  var discountAmount = document.getElementById('discount-amount');
+  subtotalAmount.textContent = 'Rs. ' + subtotal.toFixed(2);
+  discountAmount.textContent = 'Rs. ' + discount.toFixed(2);
+}
+
+
+function addProduct(productName, price) {
+  var productList = document.getElementById('product-list');
+
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td width="20%">
+      ITEM: <br> Quantity: <br> Item no:
+    </td>
+    <td width="60%">
+      <div class="font-weight-bold" style="margin-left: 10px;">
+        ${productName}
+        <div class="product-qty">
+          <span class="d-block">
+            <input type="number" name="number" style="width:44px;padding: 4px 5px 5px 7px;font-size: 15px;" value="1">
+          </span>
+          <span>Item no:</span> <!-- Replace 'Item no:' with the actual item number -->
         </div>
+      </div>
+    </td>
+    <td width="20%">
+      <div class="text-right">
+        <span class="font-weight-bold">Rs. ${price}</span>
+        <span class="d-flex">
+          <li class="list-inline-item d-flex">
+            <button class="btn btn-primary btn-sm rounded-0 plus-button" type="button" data-toggle="tooltip"
+              data-placement="top" title="Add"><i class="fa fa-plus"></i></button>
+          </li>
+          <li class="list-inline-item d-flex">
+            <button class="btn btn-danger btn-sm rounded-0 minus-button" type="button" data-toggle="tooltip"
+              data-placement="top" title="Delete"><i class="fa fa-minus"></i></button>
+          </li>
+          <li class="list-inline-item">
+            <button class="btn btn-danger btn-sm rounded-0 delete-button" type="button" data-toggle="tooltip"
+              data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+          </li>
+        </span>
+      </div>
+    </td>
+  `;
+
+  productList.appendChild(newRow);
+
+  // Update subtotal when a product is added
+  updateSubtotal();
+
+  // Attach event listeners to the buttons in the new row
+  var plusButton = newRow.querySelector('.plus-button');
+  var minusButton = newRow.querySelector('.minus-button');
+  var deleteButton = newRow.querySelector('.delete-button');
+
+  plusButton.addEventListener('click', function () {
+    // Handle increment logic
+    var quantityInput = newRow.querySelector('input[name="number"]');
+    var quantity = parseInt(quantityInput.value);
+    quantity++;
+    quantityInput.value = quantity;
+
+    updateSubtotal();
+  });
+
+  minusButton.addEventListener('click', function () {
+    // Handle decrement logic
+    var quantityInput = newRow.querySelector('input[name="number"]');
+    var quantity = parseInt(quantityInput.value);
+    if (quantity > 1) {
+      quantity--;
+      quantityInput.value = quantity;
+
+      updateSubtotal();
+    }
+  });
+
+  deleteButton.addEventListener('click', function () {
+    // Handle deletion logic
+    newRow.remove(); // Remove the row from the table
+
+    updateSubtotal();
+  });
+}
+
+// // Example usage:
+// addProduct('Preston', 940);
+// addProduct('Lara', 994);
+
+
+
+
+
+</script>
 
         <div class="modal" id="myModal">
             <div class="modal-dialog modal-dialog-centered">
@@ -317,6 +383,8 @@
         </div>
 
     </body>
+    
+
 
     @include('user-layouts.scripts')
 </html>
