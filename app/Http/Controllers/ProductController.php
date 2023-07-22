@@ -9,6 +9,7 @@ use App\Models\SubCategory;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Picqer\Barcode\BarcodeGeneratorJPG;
 
 
 class ProductController extends Controller
@@ -19,6 +20,10 @@ class ProductController extends Controller
     }
     public function index(Request $request)
     {
+
+        $redColor = [0, 0, 0];
+
+
         if ($request->ajax()) {
             $return_data = array();
             $data = Product::all();
@@ -30,6 +35,7 @@ class ProductController extends Controller
                     'available_sizes' => $d->available_sizes,
                     'stock_quantity' =>  $d->stock_quantity,
                     'sales_price' =>  $d->sales_price,
+                    'bar_code' => '<img src="' . $d->bar_code . '"><a class="btn btn-sm btn-primary m-3 print-bar" data-img="' . $d->bar_code . '">print</a>',
                     'action' => '<a class="btn btn-sm btn-outline-success m-4" href="'.route('product.edit', ['id' => $d->product_id]).'"><i class="fas fa-edit" style="color:green;"></i></a><a class="btn btn-sm btn-outline-danger m-4" href="'.route('product.delete', ['id' => $d->product_id]).'"><i class="fas fa-trash-alt" style="color:red;"></i></a>',
                 );
             }
@@ -92,6 +98,18 @@ class ProductController extends Controller
                 ));
 
             }else{
+                $color = [0, 0, 0];
+
+                $generator = new BarcodeGeneratorJPG();
+                $path = 'storage/barcode';
+                if (!is_dir($path))
+                {
+                    @mkdir($path, 0777, true);
+                }
+                $filename =time().'.jpg';
+                $prod_uniq = time();
+
+                file_put_contents($path.'/'.$filename, $generator->getBarcode($prod_uniq, $generator::TYPE_CODE_128, 3, 50, $color));
                 $res = Product::create(array(
                     'product_name' => $request->input('product_name'),
                     'product_brand' => $request->input('product_brand'),
@@ -102,7 +120,9 @@ class ProductController extends Controller
                     'product_sub_category' => $request->input('sub_category_id'),
                     'product_description' => $request->input('product_description'),
                     'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
+                    'updated_at' => date('Y-m-d H:i:s'),
+                    'bar_code' => '/'. $path . $filename,
+                    'prod_uniq' => $prod_uniq
                 ));
             }
 
@@ -132,8 +152,8 @@ class ProductController extends Controller
                         $res->image()->create(['image_path'=>$filename]);
                     }
                 }
-                  
-                
+
+
             }
             if ($res) {
                 return redirect()->route('product.list')->with('success', 'Successfully Added to the List.');
