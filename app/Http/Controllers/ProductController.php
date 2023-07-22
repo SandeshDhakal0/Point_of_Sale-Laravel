@@ -121,7 +121,7 @@ class ProductController extends Controller
                     'product_description' => $request->input('product_description'),
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),
-                    'bar_code' => '/'. $path . $filename,
+                    'bar_code' => '/'. $path . '/' . $filename,
                     'prod_uniq' => $prod_uniq
                 ));
             }
