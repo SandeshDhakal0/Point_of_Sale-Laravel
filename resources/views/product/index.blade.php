@@ -45,16 +45,16 @@
                         </ul>
                     </nav>
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                        </div>
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                     @endif
                     @if ($message = Session::get('error'))
-                        <div class="alert alert-danger alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                        </div>
+                    <div class="alert alert-danger alert-block">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <strong>{{ $message }}</strong>
+                    </div>
                     @endif
                     <div class="card-body">
                         <table id="example2" class="display">
@@ -66,6 +66,7 @@
                                     <th>Size</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
+                                    <th>Bar Code</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -88,16 +89,17 @@
     <script>
         $(function() {
             var loadtable;
-            function loadDatatable(){
+
+            function loadDatatable() {
                 loadtable = $('#example2').DataTable({
                     "paging": true,
-    "pageLength": 5,
-    "lengthChange": false,
-    "searching": true,
-    "ordering": true,
-    "info": false,
-    "autoWidth": false,
-    "responsive": true,
+                    "pageLength": 5,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": false,
+                    "autoWidth": false,
+                    "responsive": true,
                     "ajax": {
                         url: '{{route("product.list")}}',
                     },
@@ -120,6 +122,9 @@
                             data: 'sales_price'
                         },
                         {
+                            data: 'bar_code'
+                        },
+                        {
                             data: 'action'
                         }
                     ]
@@ -128,50 +133,69 @@
             }
             loadDatatable();
 
-            $('#cat_form').on('submit',function(event){
+            $('#cat_form').on('submit', function(event) {
                 $.ajaxSetup({
                     headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 event.preventDefault();
                 var formData = $(this).serializeArray();
                 $.ajax({
-                    url : '{{route("category.add")}}',
-                    type : 'get',
-                    data : formData,
-                    success : function(res){
+                    url: '{{route("category.add")}}',
+                    type: 'get',
+                    data: formData,
+                    success: function(res) {
                         $('#category_model').modal('hide');
                         res = JSON.parse(res);
-                        if(res.status == 200){
+                        if (res.status == 200) {
                             toastr.success(res.message);
                             $('#example2 tbody').empty();
-                            if(loadtable){
+                            if (loadtable) {
                                 loadtable.destroy();
                             }
                             loadDatatable();
-                        }else{
+                        } else {
                             toastr.error(res.message);
                         }
                     }
                 });
             });
 
-            $('#category_model').on('show.bs.modal',function(event){
+            $('#category_model').on('show.bs.modal', function(event) {
                 let button = $(event.relatedTarget);
-                if(button.hasClass('editBtn')){
+                if (button.hasClass('editBtn')) {
                     console.log(button)
                     let data_id = button.data('id');
                     let category_name = button.data('categoryname');
-                    $('#editCat').html('<input type="hidden" name="category_id" value="'+data_id+'">');
+                    $('#editCat').html('<input type="hidden" name="category_id" value="' + data_id + '">');
                     $('#category_name').val(category_name);
                 }
 
             });
 
-            $('#category_model').on('hdden.bs.model',function(){
+            $('#category_model').on('hdden.bs.model', function() {
                 $('#editCat').empty();
                 $('#category_name').val('');
+            });
+        });
+
+        function printImg(img_src) {
+            var printWin = window.open("", "_blank");
+            printWin.document.write('<!DOCTYPE html><html><body style="margin: 0; padding: 0; text-align: center;">');
+            printWin.document.write('<img src="' + img_src + '" style="max-width: 100%; max-height: 100%;" />');
+            printWin.document.write('</body></html>');
+
+            printWin.document.close();
+            printWin.onload = function() {
+                printWin.print();
+                printWin.close();
+            };
+        }
+
+        $(document).ready(function() {
+            $('body').on('click', '.print-bar', function() {
+                printImg($(this).attr('data-img'));
             });
         });
     </script>

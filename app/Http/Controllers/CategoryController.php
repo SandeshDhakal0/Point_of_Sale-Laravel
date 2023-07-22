@@ -32,17 +32,19 @@ class CategoryController extends Controller
     }
 
     public function add(Request $request){
+
         if($request->ajax() && $request->isMethod('GET')){
             $cat_id = '';
             $catData['category_name'] = $request->input('category_name');
             if($request->input('category_id') && ($request->input('category_id') != '')){
                 $cat_id = $request->input('category_id');
             }
-            if(Category::where('category_name',$catData['category_name'])->get()[0]){
+            if(Category::where('category_name',$catData['category_name'])->first()){
                 echo json_encode(array('status'=>400,'message'=>'Category already exists.'));
             }else{
                 if(isset($cat_id) && $cat_id != ''){
                     $catData['updated_at'] = date('Y-m-d H:i:s');
+                    echo 'b';die;
                     $res = Category::where('category_id',$cat_id)->update($catData);
                 }else{
                     $res = Category::insert($catData);
