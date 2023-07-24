@@ -113,6 +113,27 @@
         input {
             cursor: pointer;
         }
+
+            .payment-method {
+                padding: 10px;
+                border: 1px solid #ccc;
+                cursor: pointer;
+                text-align: center;
+            }
+
+            .payment-method.active {
+                background-color: #f2f2f2;
+            }
+
+            .mobile-payment-details {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .qr-code {
+                max-width: 20%;
+                height: auto;
+            }
     </style>
 </head>
 
@@ -129,6 +150,9 @@
                 </div>
                 <div class="payment-method" data-Dclass="split-payment">
                     Split Payment
+                </div>
+                <div class="payment-method" data-Dclass="mobile-payment">
+                    Mobile Payment
                 </div>
             </div>
             <div class="col-8 row cash-payment">
@@ -227,6 +251,14 @@
                 </div>
             </div>
 
+           
+
+            <div class="col-8 row mobile-payment d-none">
+            <div class="mobile-payment-details">
+                <img class="qr-code" src="https://play-lh.googleusercontent.com/lomBq_jOClZ5skh0ELcMx4HMHAMW802kp9Z02_A84JevajkqD87P48--is1rEVPfzGVf" alt="Mobile Payment QR Code">
+                <p>Scan the QR code above with your mobile payment app to complete the payment.</p>
+            </div>
+            </div>
 
             <div class="col-8"></div>
             <div class="col-4 mt-3" style="padding: 0;padding-right: 30px;">
@@ -252,6 +284,9 @@
             }
             if (!$('.split-payment').hasClass('d-none')) {
                 $('.split-payment').addClass('d-none')
+            }
+            if (!$('.mobile-payment').hasClass('d-none')) {
+                $('.mobile-payment').addClass('d-none')
             }
             $(this).addClass('active');
             dataclass = $(this).attr('data-Dclass');
