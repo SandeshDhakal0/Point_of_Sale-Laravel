@@ -55,19 +55,39 @@
 
         // Calculate discount if available
         var discount = 0;
-        if (subtotal >= 1000) {
-            discount = subtotal * 0.1; // 10% discount
-        }
 
         // Update the subtotal and discount rows
         var subtotalAmount = document.getElementById('subtotal-amount');
         var discountAmount = document.getElementById('discount-amount');
         subtotalAmount.textContent = 'Rs. ' + subtotal.toFixed(2);
         document.getElementById('total_amt').value = subtotal.toFixed(2);
-        document.getElementById('disc_amt').value = discount.toFixed(2);
-        discountAmount.textContent = 'Rs. ' + discount.toFixed(2);
+        // document.getElementById('disc_amt').value = discount.toFixed(2);
+        // discountAmount.textContent = 'Rs. ' + discount.toFixed(2);
+        document.getElementById('payable-amount').textContent = 'Rs. ' + (subtotal-discount).toFixed(2);
     }
 
+    document.getElementById('disc_amt').addEventListener('change',function(){
+        let disc_amt = this.value;
+        var subtotalAmount = document.getElementById('subtotal-amount');
+        let st = subtotalAmount.textContent;
+        let numericValue = st.match(/\d+(\.\d+)?/);
+        let subtotal;
+        if (numericValue) {
+            subtotal =  numericValue[0]; // Output: 1500.00
+        } else {
+            subtotal = 0;
+        }
+
+        var discountAmount = document.getElementById('discount-amount');
+        let disc_type = document.getElementById('disc_type');
+        if(disc_type.value == 'percent'){
+            disc_amt = disc_amt/100*subtotal;
+        }
+        document.getElementById('payable-amount').textContent = 'Rs. ' + (subtotal-disc_amt).toFixed(2);
+
+
+
+    });
 
     function addProduct(id, productName, price, unique_id) {
         var productList = document.getElementById('product-list');
