@@ -161,6 +161,7 @@ class UserController extends Controller
                         dd('Something went wrong !!!');
                     }
                 }
+
                 $invoices = Sale::where('invoice_id',$invoice_id)->get();
 
                 $p = Product::all();
@@ -225,11 +226,16 @@ class UserController extends Controller
         }
         $data = Product::all();
         $users = User::where('role',0)->get();
-        $invoices = Sale::where('invoice_id','INV202307300055')->get();
 
-        $p = Product::all();
+        $curr_sale = FinalInvoice::all();
+        $invoices = array();
+        if($curr_sale != null){
+            $curr_count = count($curr_sale);
+            $invoice_id = $curr_sale[$curr_count-1]['invoice_id'];
+            $invoices = Sale::where('invoice_id',$invoice_id)->get();
+        }
         $products = array();
-        foreach($p as $a){
+        foreach($data as $a){
             $products[$a->product_id] = $a;
         }
 
