@@ -17,26 +17,36 @@ class UserController extends Controller
     public function index()
     {
 
-        $categories = Category::all();
+
         $ret = array();
+        $categories = Category::all();
+        if($categories != null && !empty($categories)){
+            foreach($categories as $cat){
+                $ret['category'][] = $cat;
 
-        foreach($categories as $cat){
-            $ret['category'][] = $cat;
+                $product = Product::where(['category_id'=>$cat->category_id])->get();
+                if($product != null && !empty($product)){
+                    $finalprod = array();
+                    foreach($product as $p){
+                        $finalprod[] = array(
+                            'product_id' => $p->product_id,
+                            'product_name' => $p->product_name,
+                            'category_id' => $p->category_id,
+                            'price' => $p->sales_price,
+                            'prod_uniq' => $p->prod_uniq,
+                            'images' => Image::where('product_id',$p->product_id)->get()
+                        );
+                    }
+                    $finalprod['cat_id'] = $cat->category_id;
+                    $ret['product'][] = $finalprod;
+                }else{
+                    $ret['product'] = array();
+                }
 
-            $product = Product::where(['category_id'=>$cat->category_id])->get();
-            $finalprod = array();
-            foreach($product as $p){
-                $finalprod[] = array(
-                    'product_id' => $p->product_id,
-                    'product_name' => $p->product_name,
-                    'category_id' => $p->category_id,
-                    'price' => $p->sales_price,
-                    'images' => Image::where('product_id',$p->product_id)->get()
-                );
             }
-            $finalprod['cat_id'] = $cat->category_id;
-            $ret['product'][] = $finalprod;
-
+        }else{
+            $ret['category'] = array();
+            $ret['product'][] = array();
         }
         return view('user.dashboard')->with('response',$ret);
     }
@@ -168,5 +178,17 @@ class UserController extends Controller
         $data = Product::all();
         $users = User::where('role',0)->get();
         return view('user.dailysales',['product' => $data, 'users' => $users]);
+    }
+
+    public function getProduct(Request $request){
+        if($request->ajax()){
+            $prod_uniq = $request->input('prod_uniq');
+            $product_detail = array();
+            $product = Product::where('prod_uniq',$prod_uniq)->first();
+            if($product != null){
+                $product_detail = $product;
+            }
+            echo json_encode($product_detail);die;
+        }
     }
 }
