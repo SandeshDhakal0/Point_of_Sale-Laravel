@@ -188,9 +188,14 @@
             <input type="hidden" name="total_amt" id="total_amt">
           </tr>
           <tr>
-            <td width="80%">Discount:</td>
-            <td width="20%" id="discount-amount">Rs. 0</td>
-            <input type="hidden" name="disc_amt" id="disc_amt">
+            <td width="80%">Discount: <select class="form-control" id="disc_type"><option value="amount">Amount(Rs.)</option><option value="percent">Percentage(%)</option></select> </td>
+            <td width="20%" id="discount-amount">Rs. <input type="number" name="disc_amt" id="disc_amt"></td>
+
+          </tr>
+          <tr>
+            <td width="80%">Payable:</td>
+            <td width="20%" id="payable-amount">Rs. 0</td>
+
           </tr>
           <input type="hidden" name="product_ids" id="product_ids">
           <input type="hidden" name="product_price" id="product_price">
