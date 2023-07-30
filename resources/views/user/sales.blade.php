@@ -1,410 +1,412 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    @include('user-layouts.meta')
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
-        .payment-method {
+        /* Styles for the search bar */
+        .search-bar {
+            /* position: relative; */
+            display: inline-block;
+            max-width: 300px;
+        }
+
+        .search-input {
+            box-sizing: border-box;
             width: 100%;
-            height: 50px;
-            background: #afacacba;
+            padding: 10px 30px 10px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            /* background-image: url("search-icon.png"); */
+            /* Path to your search icon image */
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            /* Adjust the position as needed */
+            background-size: 20px;
+            /* Adjust the size of the icon */
+        }
+
+        .list-item {
+            text-decoration: none;
+            display: block;
+
             display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 2% 4%;
+            justify-content: space-between;
+
+
+            list-style: none;
+            display: inline-block;
+            padding: 8px 12px;
+            position: relative;
             border: 1px solid black;
-            cursor: pointer;
-            transition: 0.5s;
         }
 
-        .payment-method.active {
-            background-color: white;
-            border: none;
-            border-left: 4px solid red;
-        }
-
-        .total-amt {
-            width: 100%;
-            height: 50px;
-            padding-left: 20px;
-        }
-
-        .total-amt h4 {
-            margin: 0;
-            width: 100%;
-            display: flex;
-            justify-content: end;
-            color: red;
-            font-weight: 700;
-        }
-
-        .total-amt p {
-            margin: 0;
-            display: flex;
-            justify-content: end;
-            margin-top: 3px;
-            border-bottom: 1px solid #afacacba;
-        }
-
-        .calculator {
-            height: 37.5px;
-            /* background:#afacacba; */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .list {
             border: 1px solid black;
-            cursor: pointer;
-            transition: 0.5s;
         }
 
-        .calculator:hover {
-            background-color: #afacacba;
+        .grid-three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        body {
+            box-sizing: border-box;
+        }
+
+
+
+        .nav {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+
+        }
+
+        .nav-list {
+            display: flex;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        .list-list {
+            border: 1px solid black;
+            padding: 10px;
+
+        }
+
+        .order-list {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .grid-three-column {
+            display: grid;
+            grid-template-columns: 3, 1fr;
+            gap: 10px;
+        }
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+
+
+        .order-details,
+        .third {
+            box-sizing: border-box;
+            border: 0.5px solid rgb(201, 196, 196);
+            padding: 20px;
+
+
+        }
+
+        .order-details {
+            box-shadow: red;
+            border: 1px solid rgb(168, 179, 168);
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .two {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .center {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .button {
+            display: inline-block;
+            text-decoration: none;
             color: white;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 20px;
-            color: red;
-            padding: 6px 28px;
-        }
-
-        .card-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .amt-div {
-            width: 20%;
-            height: 40px;
-            background-color: #c5c2c2;
-            border-radius: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .charge-amt {
-            display: flex;
-            justify-content: space-between;
-            width: 15%;
-            font-size: 18px;
-        }
-
-        .charge-amt p {
-            color: yellowgreen;
-        }
-
-        #cc_card {
-            position: absolute;
-            bottom: 0;
-            border: 0;
-            border-bottom: 1px solid black;
-            border-radius: 0;
-            background: #04ff0087;
-        }
-
-        .input-container {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        input {
+            border: 2px solid black;
+            padding: 10px 18px;
+            background: transparent;
+            position: relative;
             cursor: pointer;
+            font-size: 15px;
+            background-color: #E05B76;
+        }
+
+        .add a {
+            text-decoration: none;
+            font-style: normal;
+            color: black;
+        }
+
+        .order-detail {
+            display: flex;
+            gap: 50px;
+            border: 1px solid black;
+            padding: 10px;
         }
     </style>
+
+
+    <link rel="stylesheet" href="style.css">
+    <!-- <limk role="stylesheet" href="bootstrap.css"></limk> -->
+
+
 </head>
 
 <body>
-    @include('user-layouts.header')
-    <div class="container">
-        <div class="row mt-5 pt-5">
-            <div class="col-4">
-                <div class="payment-method active" data-Dclass="cash-payment">
-                    Cash Payment
+
+
+    <div class="main">
+        <div class="nav">
+            <ul class="nav-list">
+                <li class="list-list"> Sale History</li>
+                <li class="list-list"> Hold Sail</li>
+                <li class="list-list"> Offline Sail</li>
+            </ul>
+        </div>
+
+
+        <!-- <div class="sec-main"> -->
+        <div class="main-container">
+
+            <div class="grid-three-column">
+
+                <!-- <div class="first"> -->
+                <div class="order-list">
+
+
+                    <input type="text" class="search-input" placeholder="Search">
+
+
+                    <ul class="detail">
+                        <?php $k = 0; ?>
+                        @foreach($paids_invoices as $ps)
+                        <li class="order-detail">
+                            <div class="id"><?php $k++; echo $k; ?></div>
+                            <div class="date"><?php echo $ps['created_at']; ?></div>
+                            <div class="total"><?php echo $ps['invoice_id']; ?></div>
+                            <div class="total"><?php echo $ps['amount']; ?></div>
+                        </li>
+                        @endforeach
+
+                    </ul>
+
                 </div>
-                <div class="payment-method" data-Dclass="card-payment">
-                    Debit/Credit Payment
-                </div>
-                <div class="payment-method" data-Dclass="split-payment">
-                    Split Payment
-                </div>
-            </div>
-            <div class="col-8 row cash-payment">
-                <div class="col-6">
-                    <div class="total-amt" id="given_amt">
-                        <h4>{{ $payable }}</h4>
-                        <p>Total</p>
-                    </div>
-                    <div class="total-amt" id="tendered_amt">
-                        <h4>0</h4>
-                        <p>Tendered</p>
-                    </div>
-                    <div class="total-amt" id="total_amt">
-                        <h4>{{ $payable }}</h4>
-                        <p>Charge</p>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="row w-100 m-0">
-                        <div class="col-4 calculator">1</div>
-                        <div class="col-4 calculator">2</div>
-                        <div class="col-4 calculator">3</div>
-                        <div class="col-4 calculator">4</div>
-                        <div class="col-4 calculator">5</div>
-                        <div class="col-4 calculator">6</div>
-                        <div class="col-4 calculator">7</div>
-                        <div class="col-4 calculator">8</div>
-                        <div class="col-4 calculator">9</div>
-                        <div class="col-4 calculator">.</div>
-                        <div class="col-4 calculator">0</div>
-                        <div class="col-4 calculator">C</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-8 row card-payment d-none" style="padding-left: 20px;padding-right: 15px;">
-                <div class="card w-100 p-0">
-                    <div class="card-header">
-                        <p>Total Payable</p>
-                        <p>Rs. {{ $payable }}</p>
-                    </div>
-                    <div class="card-body">
-                        <div class="amt-div">Rs. {{ $payable }}</div>
-                        <div class="charge-amt">Charge <p>Rs. 0</p>
+
+
+
+                <div class="order-details">
+                    <div class="container">
+
+
+
+                        <h2>Order ID</h2>
+                        <h2><span id="invoice_id"><?php echo $invoices[0]['invoice_id']; ?></span></h2>
+                        <!-- <h2><span>#N/A</span></h2> -->
+                        <hr>
+                        <h2>Order Date</h2>
+                        <div class="add">
+                            <p><span><ion-icon name="calendar-number-outline"></ion-icon></span>
+                                <a><?php echo $invoices[0]['created_at']; ?>
+                                </a>
+                            </p>
+                        </div>
+                        <hr>
+                        <h2>Costomer Detail</h2>
+                        <div class="add">
+
+                            <p>
+                            <label for="customer_name">Name:</label>
+                                <input type="text" name="customer_name" id="customer_name" class="form-control">
+                            </p>
+
+                            <p><span><ion-icon name="call-outline"></ion-icon></span>
+                                <label for="customer_number">Number:</label>
+                                <input type="text" name="customer_number" id="customer_number" class="form-control">
+                            </p>
+                        </div>
+                        <div class="add">
+                            <p><span><ion-icon name="mail-outline"></ion-icon></ion-icon></span>
+                                <label for="customer_number">Email:</label>
+                                <input type="text" name="customer_email" id="customer_email" class="form-control">
+                            </p>
+                        </div>
+                        <hr>
+
+
+                        <div class="butt">
+                            <a href="#" class="button" id="but">Print Invoice</a>
+                            <a href="#" class="button">Return</a>
                         </div>
                     </div>
                 </div>
-                <div class="input-container mt-3">
-                    <div class="form-group w-50">
-                        <label class="form-label" for="selectBank">Select Label</label>
-                        <select class="form-control" name="bank_name" id="selectBank">
-                            <option value="RBB">Rastriya Banijya Bank</option>
-                            <option value="GIB">Global IME Bank</option>
-                            <option value="NIMB">Nepal Investment Mega Bank</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="width: 9%;position: relative;">
-                        <input type="text" class="form-control" name="card_cc" id="cc_card" placeholder="XXXX">
-                    </div>
-                </div>
-            </div>
-            <div class="col-8 row split-payment d-none" style="padding-left: 20px;padding-right: 15px;">
-                <div class="card w-100 p-0">
-                    <div class="card-header">
-                        <p>Total Payable</p>
-                        <p>Rs. {{ $payable }}</p>
-                    </div>
-                    <div class="card-body">
-                        <div class="amt-div">Rs. {{ $payable }}</div>
-                        <div class="charge-amt">Charge <p>Rs. 0</p>
+
+
+                <div class="third">
+                    <div class="container-2">
+                        <h2>Order Summery</h2>
+                        @foreach($invoices as $inv)
+                            <div class="two">
+                                <p><?php echo $product[$inv['product_id']]['product_name']; ?></p>
+                                <h3>Rs. <?php echo $inv['sold_amount']; ?></h3>
+                            </div>
+
+                            <span><?php echo $inv['sold_quantity']; ?> unit(s)</span>
+                            <br>
+                        @endforeach
+                        <div class="two">
+
+                            <h4>Sub Total</h4>
+                            <span id="subtotal-amount"> Rs. <?php echo (int) $inv['sold_amount'] * (int) $inv['sold_quantity']; ?></span>
+                        </div>
+                        <hr>
+                        <div class="two">
+
+                            <h4>discount: <select class="form-control" id="disc_type"><option value="amount">Amount(Rs.)</option><option value="percent">Percentage(%)</option></select></h4>
+                            <span>Rs. <input type="number" name="disc_amt" id="disc_amt"></span>
+                        </div>
+
+                        <hr>
+                        <div class="two">
+
+                            <h4>Payable Amount</h4>
+                            <span id="payable-amount">Rs 0.00</span>
+                        </div>
+                        <div class="two">
+                            <h4>taxes: <select class="form-control" id="tax_type"><option value="amount">Amount(Rs.)</option><option value="percent">Percentage(%)</option></select></h4>
+                            <span>Rs. <input type="number" name="disc_amt" id="tax_amt"></span>
+                        </div>
+                        <hr>
+                        <div class="two">
+
+                            <h2>total</h2>
+                            <span id="total-amount">Rs 100.00</span>
+                        </div>
+                        <div class="two">
+
+                            <p>online Payment</p>
+                            <span id="op">$100.00</span>
+                        </div>
+                        <!-- <div class="two">
+
+                            <h2>total refunded</h2>
+                            <span>-$100.00</span>
+                        </div> -->
+                        <div class="two">
+
+                            <h2>grand Total</h2>
+                            <span id="gt">$0.00</span>
+                        </div>
+                        <hr>
+                        <div class="two">
+
+                            <h2>Balance</h2>
+                            <span id="bal">$0.00</span>
                         </div>
                     </div>
-                </div>
-                <div class="form-group" style="margin:0;margin-top: 20px;font-size: 18px;width:50%;">
-                    <input class="form-conrol" type="checkbox" id="is_cash">
-                    <label for="is_cash">Cash</label>
-                </div>
-                <div class="form-group d-none" id="half_cash" style="width:50%;margin-top:20px;display:flex;justify-content:end;">
-                    <input type="text" name="cash" class="form-control" id="split_cash" style="width:50%;" placeholder="0">
-                </div>
-                <div class="form-group" style="margin-top: 10px;font-size: 18px;">
-                    <input class="form-conrol" type="checkbox" id="is_credit">
-                    <label for="is_credit">Credit</label>
-                </div>
-                <div class="input-container mt-3 d-none" id="half_credit">
-                    <div class="form-group w-50">
-                        <label class="form-label" for="selectBank">Select Label</label>
-                        <select class="form-control" name="bank_name" id="selectBank">
-                            <option value="RBB">Rastriya Banijya Bank</option>
-                            <option value="GIB">Global IME Bank</option>
-                            <option value="NIMB">Nepal Investment Mega Bank</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="width: 9%;position: relative;">
-                        <input type="text" class="form-control" name="card_cc" id="split_credit" placeholder="XXXX">
-                    </div>
-                </div>
-            </div>
 
 
-            <div class="col-8"></div>
-            <div class="col-4 mt-3" style="padding: 0;padding-right: 30px;">
-                <textarea style="width:100%;height:70px;" placeholder="Add Order Note Here ...."></textarea>
-                <button type="submit" class="btn btn-md btn-secondary float-end" id="confirm-payment"><i class="fa fa-money" aria-hidden="true"></i> Confirm Payment</button>
+                </div>
             </div>
         </div>
     </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="index.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 
 </body>
-
-@include('user-layouts.scripts')
 <script>
-    let paymentmethod = $('.payment-method');
-    paymentmethod.each(function() {
-        $(this).on('click', function() {
-            paymentmethod.removeClass('active');
-            if (!$('.cash-payment').hasClass('d-none')) {
-                $('.cash-payment').addClass('d-none')
+        document.getElementById('disc_amt').addEventListener('change',function(){
+            let disc_amt = this.value;
+            var subtotalAmount = document.getElementById('subtotal-amount');
+            let st = subtotalAmount.textContent;
+            let numericValue = st.match(/\d+(\.\d+)?/);
+            let subtotal;
+            if (numericValue) {
+                subtotal =  numericValue[0]; // Output: 1500.00
+            } else {
+                subtotal = 0;
             }
-            if (!$('.card-payment').hasClass('d-none')) {
-                $('.card-payment').addClass('d-none')
+
+            var discountAmount = document.getElementById('discount-amount');
+            let disc_type = document.getElementById('disc_type');
+            if(disc_type.value == 'percent'){
+                disc_amt = disc_amt/100*subtotal;
             }
-            if (!$('.split-payment').hasClass('d-none')) {
-                $('.split-payment').addClass('d-none')
-            }
-            $(this).addClass('active');
-            dataclass = $(this).attr('data-Dclass');
-            $('.' + dataclass).removeClass('d-none');
+            document.getElementById('payable-amount').textContent = 'Rs. ' + (subtotal-disc_amt).toFixed(2);
         });
-    });
-    $('#is_credit').on('change', function() {
-        if ($(this).is(':checked')) {
-            $('#half_credit').removeClass('d-none');
-        } else {
-            $('#half_credit').addClass('d-none');
-        }
-    });
-    $('#is_cash').on('change', function() {
-        if ($(this).is(':checked')) {
-            $('#half_cash').removeClass('d-none');
-        } else {
-            $('#half_cash').addClass('d-none');
-        }
-    });
 
-    $('.calculator').on('click', function() {
-        var val = $(this).html();
-
-        var curr = $('#tendered_amt h4').html();
-        var total_amt = $('#total_amt h4').html();
-        var given_amt = $('#given_amt h4').html();
-        if (val == 'C') {
-            if (curr > 9) {
-                var curr_amt = curr.slice(0, -1);
-                $('#tendered_amt h4').html(curr_amt);
-                let final_amt = parseFloat(given_amt) + parseFloat(curr_amt);
-                $('#total_amt h4').html(final_amt);
-
+        document.getElementById('tax_amt').addEventListener('change',function(){
+            let disc_amt = parseFloat(this.value);
+            var subtotalAmount = document.getElementById('payable-amount');
+            let st = subtotalAmount.textContent;
+            let numericValue = st.match(/\d+(\.\d+)?/);
+            let subtotal;
+            if (numericValue) {
+                subtotal =  parseFloat(numericValue[0]); // Output: 1500.00
             } else {
-                $('#tendered_amt h4').html('0');
-                $('#total_amt h4').html(given_amt);
+                subtotal = 0;
             }
+            var discountAmount = document.getElementById('tax-amount');
+            let disc_type = document.getElementById('tax_type');
+            if(disc_type.value == 'percent'){
+                disc_amt = parseFloat(disc_amt/100*subtotal);
+            }
+            let totalAmt = subtotal + disc_amt;
+            console.log(typeof disc_amt);console.log(disc_amt);
+            document.getElementById('total-amount').textContent = 'Rs. ' + totalAmt;
+            document.getElementById('op').textContent = 'Rs. ' + totalAmt;
+            document.getElementById('gt').textContent = 'Rs. ' + totalAmt;
+            document.getElementById('bal').textContent = 'Rs. ' + totalAmt;
+        });
+        document.getElementById('but').addEventListener('click',function(){
+            let data = [{name:'invoice_id',value:document.getElementById('invoice_id').textContent}];
+            data.push({name:'customer_name',value:document.getElementById('customer_name').value});
+            data.push({name:'customer_email',value:document.getElementById('customer_email').value});
+            data.push({name:'customer_number',value:document.getElementById('customer_number').value});
+            data.push({name:'discount',value:document.getElementById('disc_amt').value});
+            data.push({name:'vat',value:document.getElementById('tax_amt').value});
 
-        } else {
-            if (curr == 0) {
-                $('#tendered_amt h4').html(val);
-                $('#total_amt h4').html(parseFloat(given_amt) + parseFloat(val));
+            let bal =document.getElementById('bal').textContent;
+            let numericValue = bal.match(/\d+(\.\d+)?/);
+            let subtotal;
+            if (numericValue) {
+                subtotal =  numericValue[0]; // Output: 1500.00
             } else {
-                $('#tendered_amt h4').html(curr + val);
-                $('#total_amt h4').html(parseFloat(given_amt) + parseFloat(curr + val));
-
+                subtotal = 0;
             }
-        }
-
-    });
-    $('#confirm-payment').on('click', function() {
-        let paymentclass = $('.payment-method.active').attr('data-Dclass');
-        let data = $('.' + paymentclass);
-        if (paymentclass == 'cash-payment') {
-            payable = $('#total_amt h4').html();
-        }else if(paymentclass == 'card-payment'){
-            payable = $('#total_amt h4').html();
-            cc_val = $('#cc_card').val();
-            if(!isValidCVV(cc_val)){
-                alert('Invalid CVV');
-                exit;
-            }
-        }else{
-            payable = $('#total_amt h4').html();
-            if($('#is_cash').is(':checked') && ($('#split_cash').val() == null || $('#split_cash').val() == '')){
-                alert('Enter the amount of cash ');
-                exit;
-            }
-            if($('#is_credit').is(':checked') && (!isValidCVV($('#split_credit').val()))){
-                alert('Enter Valid CVV');
-                exit;
-            }
-            if(!$('#is_cash').is(':checked') && !$('#is_credit').is(':checked')){
-                alert('Choose a Payment Method.');
-                exit;
-            }
-        }
-
-            // Example usage
-        var paymentDetails = {
-            amount: payable,
-            invoiceId: 'INV-'+generateRandom4DigitNumber(),
-            date: new Date()
-        };
-        printPaymentSlip(paymentDetails);
-        window.location.href = '{{ route("user.index") }}';
-    });
-    function isValidCVV(cvv) {
-        var cvvPattern = /^[0-9]{3,4}$/;
-        return cvvPattern.test(cvv);
-    }
-    function generateRandom4DigitNumber() {
-        var min = 1000; // Minimum 4-digit number (inclusive)
-        var max = 9999; // Maximum 4-digit number (inclusive)
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function printPaymentSlip(paymentDetails) {
-        // Create a new window to hold the payment slip content
-        var printWindow = window.open('', '_blank');
-
-        // Generate the HTML content for the payment slip
-        var paymentSlipContent = `
-    <html>
-      <head>
-        <title>Payment Slip</title>
-        <style>
-          /* Add your custom styles for the payment slip here */
-          /* For example: */
-          body {
-            font-family: Arial, sans-serif;
-          }
-          .header {
-            text-align: center;
-            margin-bottom: 20px;
-          }
-          .amount {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-          }
-          .details {
-            margin-bottom: 10px;
-          }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <h1>Payment Slip</h1>
-        </div>
-        <div class="amount">
-          Amount: ${paymentDetails.amount}
-        </div>
-        <div class="details">
-          <strong>Invoice ID:</strong> ${paymentDetails.invoiceId}
-        </div>
-        <div class="details">
-          <strong>Date:</strong> ${paymentDetails.date}
-        </div>
-        <!-- Add more payment details as needed -->
-      </body>
-    </html>
-  `;
-
-        // Set the content of the print window to the payment slip content
-        printWindow.document.open();
-        printWindow.document.write(paymentSlipContent);
-        printWindow.document.close();
-
-        // Print the payment slip
-        printWindow.print();
-    }
+            data.push({name:'amount',value:subtotal});
+            data.push({name:'payment_method',value:1});
+            $.ajax({
+                type:'GET',
+                url:"{{route('sales.pay')}}",
+                data:data,
+                success:function(res){
+                    res = JSON.parse(res);
+                    if(res.status == 200){
+                        if(confirm('Do you want to print the Invoice!') == true){
+                            console.log('Print invoice')
+                        }
+                    }else{
+                        alert('Something went wrong !!!');
+                    }
+                }
+            })
+        });
 </script>
-
 </html>

@@ -84,9 +84,6 @@
             disc_amt = disc_amt/100*subtotal;
         }
         document.getElementById('payable-amount').textContent = 'Rs. ' + (subtotal-disc_amt).toFixed(2);
-
-
-
     });
 
     function addProduct(id, productName, price, unique_id) {

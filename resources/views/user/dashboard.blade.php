@@ -10,11 +10,13 @@
         <div class="col-8 col-sm-8 col-xs-12">
             <ul class="nav nav-tabs">
             <?php $i = 0 ; ?>
+            @if(isset($response['category']))
             @foreach($response['category'] as $cat)
             <li <?php if($i == 0){ $i++; echo 'class="active"'; } ?>>
                     <a data-toggle="tab"><button data-id={{ $cat->category_id }} class="tabbutton">{{ $cat->category_name }}</button></a>
                 </li>
             @endforeach
+            @endif
 
 
             </ul>
@@ -23,6 +25,7 @@
             <div class="tab-content">
                 <!-- category-1 -->
                 <?php $i = 0 ; ?>
+                @if(isset($response['product']))
                 @foreach($response['product'] as $prod)
                 <div class="tab-pane <?php if($i == 0){ $i++; echo 'active'; } ?>" id={{$prod['cat_id']}}>
                     <section>
@@ -54,6 +57,7 @@
                     </section>
                 </div>
                 @endforeach
+                @endif
             </div>
             <!-- end of tab content -->
 

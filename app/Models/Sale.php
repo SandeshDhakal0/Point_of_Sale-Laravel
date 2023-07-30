@@ -10,7 +10,7 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sold_to_user_id','sold_to_user_name','sold_quantity','sold_amount','product_id','created_at','updated_at'];
+    protected $fillable = ['sold_to_user_id','sold_to_user_name','sold_quantity','sold_amount','product_id','created_at','updated_at','invoice_id'];
 
     public function product(): BelongsTo
     {

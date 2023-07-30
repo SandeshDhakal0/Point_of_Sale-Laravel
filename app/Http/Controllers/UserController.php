@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\FinalInvoice;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Sale;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use League\CommonMark\Extension\SmartPunct\EllipsesParser;
 
 class UserController extends Controller
 {
@@ -109,6 +111,7 @@ class UserController extends Controller
     public function sales(Request $request){
         if($request->isMethod('POST')){
             if($request->input('_token') && $request->input('_token') != ''){
+
                 $total_amt = $request->input('total_amt');
                 $disc_amt = $request->input('disc_amt');
                 $payable_amt = $total_amt - $disc_amt;
@@ -136,7 +139,9 @@ class UserController extends Controller
                         }
                     }
                 }
+                $invoice_id = $this->generateInvoiceNumber();
                 foreach($ids as $key=>$id){
+
                     $res = Sale::create(array(
                         'sold_to_user_id' => Auth::user()->id,
                         'sold_to_user_name' => Auth::user()->name,
@@ -144,19 +149,57 @@ class UserController extends Controller
                         'sold_amount' => $amount[$key],
                         'product_id' => $id,
                         'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'invoice_id' => "$invoice_id"
                     ));
                     if(!$res){
                         dd('Something went wrong !!!');
                     }
                 }
+                $invoices = Sale::where('invoice_id',$invoice_id)->get();
 
-                return view('user.sales')->with('payable',$payable_amt);
+                $p = Product::all();
+                $products = array();
+                foreach($p as $a){
+                    $products[$a->product_id] = $a;
+                }
+
+                $currentTimestamp = time();
+
+                // Calculate the timestamp for 7 days before the current date
+                $sevenDaysBeforeTimestamp = strtotime('-7 days', $currentTimestamp);
+
+                // Convert the timestamp to a formatted date (e.g., Y-m-d)
+                $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
+
+                $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
+
+                return view('user.sales',['payable' => $payable_amt,'invoices' => $invoices,'product' => $products, 'paids_invoices' => $all_invoice ]);
             }
         }
         echo 'Invalid Credentials';die;
 
     }
+
+
+    protected function generateInvoiceNumber($prefix = 'INV') {
+
+        $currentDate = date('Ymd');
+
+        $lastInvoiceNumber = Sale::orderBy('sales_id', 'desc')->first();
+        if($lastInvoiceNumber == NULL){
+            $lastInvoiceNumber = 0;
+        }else{
+            $lastInvoiceNumber = $lastInvoiceNumber->sales_id;
+        }
+
+        $nextInvoiceNumber = $lastInvoiceNumber + 1;
+
+        $invoiceNumber = $prefix . $currentDate . str_pad($nextInvoiceNumber, 4, '0', STR_PAD_LEFT);
+
+        return $invoiceNumber;
+    }
+
 
     public function dailysales(Request $request){
         if($request->ajax()){
@@ -189,6 +232,17 @@ class UserController extends Controller
                 $product_detail = $product;
             }
             echo json_encode($product_detail);die;
+        }
+    }
+
+    public function saveInv(Request $request){
+        if($request->ajax()){
+            if(FinalInvoice::create($request->input())){
+                echo json_encode(array('status'=>200));
+            }else{
+                echo json_encode(array('status'=>400));
+            }
+            die;
         }
     }
 }
