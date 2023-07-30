@@ -374,6 +374,39 @@
             document.getElementById('gt').textContent = 'Rs. ' + totalAmt;
             document.getElementById('bal').textContent = 'Rs. ' + totalAmt;
         });
+        document.getElementById('but').addEventListener('click',function(){
+            let data = [{name:'invoice_id',value:document.getElementById('invoice_id').textContent}];
+            data.push({name:'customer_name',value:document.getElementById('customer_name').value});
+            data.push({name:'customer_email',value:document.getElementById('customer_email').value});
+            data.push({name:'customer_number',value:document.getElementById('customer_number').value});
+            data.push({name:'discount',value:document.getElementById('disc_amt').value});
+            data.push({name:'vat',value:document.getElementById('tax_amt').value});
 
+            let bal =document.getElementById('bal').textContent;
+            let numericValue = bal.match(/\d+(\.\d+)?/);
+            let subtotal;
+            if (numericValue) {
+                subtotal =  numericValue[0]; // Output: 1500.00
+            } else {
+                subtotal = 0;
+            }
+            data.push({name:'amount',value:subtotal});
+            data.push({name:'payment_method',value:1});
+            $.ajax({
+                type:'GET',
+                url:"{{route('sales.pay')}}",
+                data:data,
+                success:function(res){
+                    res = JSON.parse(res);
+                    if(res.status == 200){
+                        if(confirm('Do you want to print the Invoice!') == true){
+                            console.log('Print invoice')
+                        }
+                    }else{
+                        alert('Something went wrong !!!');
+                    }
+                }
+            })
+        });
 </script>
 </html>

@@ -114,6 +114,11 @@ class UserController extends Controller
 
                 $total_amt = $request->input('total_amt');
                 $disc_amt = $request->input('disc_amt');
+                if($disc_amt == ''){
+                    $disc_amt = 0;
+                }else{
+                    $disc_amt = (int) $disc_amt;
+                }
                 $payable_amt = $total_amt - $disc_amt;
 
                 $product_ids = explode(',',$request->input('product_ids'));
@@ -174,7 +179,7 @@ class UserController extends Controller
 
                 $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
 
-                return view('user.sales',['payable' => $payable_amt,'invoices' => $invoices,'product' => $products, 'paids_invoices' => $all_invoice ]);
+                return view('user.sales',['payable' => $payable_amt,'invoices' => $invoices,'product' => $products, 'paids_invoices' => $all_invoice, 'discount'=> $disc_amt ]);
             }
         }
         echo 'Invalid Credentials';die;
@@ -220,7 +225,24 @@ class UserController extends Controller
         }
         $data = Product::all();
         $users = User::where('role',0)->get();
-        return view('user.dailysales',['product' => $data, 'users' => $users]);
+        $invoices = Sale::where('invoice_id','INV202307300055')->get();
+
+        $p = Product::all();
+        $products = array();
+        foreach($p as $a){
+            $products[$a->product_id] = $a;
+        }
+
+        $currentTimestamp = time();
+
+        // Calculate the timestamp for 7 days before the current date
+        $sevenDaysBeforeTimestamp = strtotime('-7 days', $currentTimestamp);
+
+        // Convert the timestamp to a formatted date (e.g., Y-m-d)
+        $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
+
+        $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
+        return view('user.dailysales',['product' => $data, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice]);
     }
 
     public function getProduct(Request $request){
