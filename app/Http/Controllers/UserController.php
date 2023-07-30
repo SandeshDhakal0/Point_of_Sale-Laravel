@@ -252,7 +252,7 @@ class UserController extends Controller
         $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
 
         $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
-        return view('user.dailysales',['product' => $data, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at]);
+        return view('user.dailysales',['product' => $products, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at]);
     }
 
     public function getProduct(Request $request){

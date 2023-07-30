@@ -260,13 +260,15 @@
                     <div class="container-2">
                         <h2>Order Summery</h2>
                         @foreach($invoices as $inv)
-                            <div class="two">
-                                <p><?php echo $product[$inv['product_id']]['product_name']; ?></p>
-                                <h3>Rs. <?php echo $inv['sold_amount']; ?></h3>
-                            </div>
+                            <?php if(isset($product[$inv['product_id']])){ ?>
+                                <div class="two">
+                                    <p><?php echo $product[$inv['product_id']]['product_name']; ?></p>
+                                    <h3>Rs. <?php echo $inv['sold_amount']; ?></h3>
+                                </div>
 
-                            <span><?php echo $inv['sold_quantity']; ?> unit(s)</span>
-                            <br>
+                                <span><?php echo $inv['sold_quantity']; ?> unit(s)</span>
+                                <br>
+                            <?php } ?>
                         @endforeach
                         <div class="two">
 
