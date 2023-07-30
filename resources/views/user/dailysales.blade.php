@@ -215,13 +215,13 @@
 
 
                         <h2>Order ID</h2>
-                        <h2><span id="invoice_id"><?php echo $invoices[0]['invoice_id']; ?></span></h2>
+                        <h2><span id="invoice_id"><?php echo $invoice_id; ?></span></h2>
                         <!-- <h2><span>#N/A</span></h2> -->
                         <hr>
                         <h2>Order Date</h2>
                         <div class="add">
                             <p><span><ion-icon name="calendar-number-outline"></ion-icon></span>
-                                <a><?php echo $invoices[0]['created_at']; ?>
+                                <a><?php echo $created_at; ?>
                                 </a>
                             </p>
                         </div>

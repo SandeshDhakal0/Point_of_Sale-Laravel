@@ -8,6 +8,7 @@ use App\Models\Image;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -229,10 +230,13 @@ class UserController extends Controller
 
         $curr_sale = FinalInvoice::all();
         $invoices = array();
+        $invoice_id = '';
+        $created_at = new DateTime();
         if($curr_sale != null){
             $curr_count = count($curr_sale);
             $invoice_id = $curr_sale[$curr_count-1]['invoice_id'];
             $invoices = Sale::where('invoice_id',$invoice_id)->get();
+            $created_at = $curr_sale[$curr_count-1]['created_at'];
         }
         $products = array();
         foreach($data as $a){
@@ -248,7 +252,7 @@ class UserController extends Controller
         $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
 
         $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
-        return view('user.dailysales',['product' => $data, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice]);
+        return view('user.dailysales',['product' => $data, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at]);
     }
 
     public function getProduct(Request $request){
