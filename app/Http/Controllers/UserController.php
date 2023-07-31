@@ -225,6 +225,8 @@ class UserController extends Controller
             echo json_encode($return_data);
             exit;
         }
+
+
         $data = Product::all();
         $users = User::where('role',0)->get();
 
@@ -232,11 +234,32 @@ class UserController extends Controller
         $invoices = array();
         $invoice_id = '';
         $created_at = new DateTime();
+        $curr_inv = array();
         if($curr_sale != null){
             $curr_count = count($curr_sale);
+
             $invoice_id = $curr_sale[$curr_count-1]['invoice_id'];
+
+            if(isset($_GET['invoice_id']) && $_GET['invoice_id'] != ''){
+                $id = $_GET['invoice_id'];
+                $invoice_id= FinalInvoice::where('id',$id)->get()[0]['invoice_id'];
+
+
+            }
+
             $invoices = Sale::where('invoice_id',$invoice_id)->get();
             $created_at = $curr_sale[$curr_count-1]['created_at'];
+            if(isset($_GET['invoice_id']) && $_GET['invoice_id'] != ''){
+                foreach($curr_sale as $cs){
+                    if($cs['invoice_id'] == $invoice_id){
+                        $curr_inv = $cs;
+                        break;
+                    }
+                }
+            }else{
+                $curr_inv = $curr_sale[$curr_count-1];
+            }
+
         }
         $products = array();
         foreach($data as $a){
@@ -252,7 +275,7 @@ class UserController extends Controller
         $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
 
         $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
-        return view('user.dailysales',['product' => $products, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at]);
+        return view('user.dailysales',['product' => $products, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at, 'curr_inv' => $curr_inv]);
     }
 
     public function getProduct(Request $request){

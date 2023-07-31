@@ -347,7 +347,7 @@
                 exit;
             }
         }
-        let discount = <?php echo $discount ?>;
+            let discount = <?php echo $discount ?>;
             let datas = [{name:'invoice_id',value:document.getElementById('invoice_id').textContent}];
             datas.push({name:'customer_name',value:document.getElementById('customer_name').value});
             datas.push({name:'customer_email',value:document.getElementById('customer_email').value});
@@ -355,15 +355,9 @@
             datas.push({name:'discount',value:discount});
             datas.push({name:'vat',value:$('#tendered_amt h4').html()});
 
-            let bal = $('#given_amt h4').html();
-            let numericValue = bal.match(/\d+(\.\d+)?/);
-            let subtotal;
-            if (numericValue) {
-                subtotal =  numericValue[0]; // Output: 1500.00
-            } else {
-                subtotal = 0;
-            }
-            subtotal = subtotal+ discount;
+            let bal = $('#total_amt h4').html();
+            let subtotal = parseFloat(bal);
+
             datas.push({name:'amount',value:subtotal});
             datas.push({name:'payment_method',value:1});
             $.ajax({
