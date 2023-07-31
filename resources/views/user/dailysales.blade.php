@@ -174,7 +174,7 @@
 
 
     <div class="main">
-        <div class="nav">
+        <div class="nav" style="display: none;">
             <ul class="nav-list">
                 <li class="list-list"> Sale History</li>
                 <li class="list-list"> Hold Sail</li>
@@ -192,14 +192,14 @@
                 <div class="order-list">
 
 
-                    <input type="text" class="search-input" placeholder="Search">
+                    <input type="hidden" class="search-input" placeholder="Search">
 
 
                     <ul class="detail">
                         <?php $k = 0; ?>
                         @foreach($paids_invoices as $ps)
                         <a href="{{ route('user.dailysales')}}?invoice_id={{ $ps['id'] }}" style="text-decoration: none;">
-                        <li class="order-detail <?php if($curr_inv['id'] == $ps['id']){ echo 'active'; } ?>">
+                        <li class="order-detail <?php if(@$curr_inv['id'] == $ps['id']){ echo 'active'; } ?>">
 
                             <div class="id"><?php $k++; echo $k; ?></div>
                             <div class="date"><?php echo $ps['created_at']; ?></div>
@@ -234,16 +234,16 @@
                         <div class="add">
 
                             <p>
-                            {{ $curr_inv['customer_name'] }}
+                            {{ @$curr_inv['customer_name'] }}
                             </p>
 
                             <p><span><ion-icon name="call-outline"></ion-icon></span>
-                            {{ $curr_inv['customer_number'] }}
+                            {{ @$curr_inv['customer_number'] }}
                             </p>
                         </div>
                         <div class="add">
                             <p><span><ion-icon name="mail-outline"></ion-icon></ion-icon></span>
-                            {{ $curr_inv['customer_email'] }}
+                            {{ @$curr_inv['customer_email'] }}
                             </p>
                         </div>
                         <hr>
@@ -251,7 +251,7 @@
 
                         <div class="butt">
                             <a href="#" class="button" id="but" onclick="printPaymentSlip()">Print Invoice</a>
-                            <a href="#" class="button">Return</a>
+                            <a href="javascript:void(0);" class="button" id="return_button">Return</a>
                         </div>
                     </div>
                 </div>
@@ -281,19 +281,19 @@
                         <hr>
                         <div class="two">
                             <h4>discount:</h4>
-                            <span>Rs. {{ $curr_inv['discount'] }}</span>
+                            <span>Rs. {{ @$curr_inv['discount'] }}</span>
                         </div>
 
                         <hr>
                         <div class="two">
                             <h4>taxes: </h4>
-                            <span>Rs. {{ $curr_inv['vat'] }}</span>
+                            <span>Rs. {{ @$curr_inv['vat'] }}</span>
                         </div>
                         <hr>
                         <div class="two">
 
                             <h2>total</h2>
-                            <span id="total-amount">Rs. {{ $curr_inv['amount'] }}</span>
+                            <span id="total-amount">Rs. {{ @$curr_inv['amount'] }}</span>
                         </div>
                         <div class="two">
 
@@ -308,13 +308,13 @@
                         <div class="two">
 
                             <h2>grand Total</h2>
-                            <span id="gt">Rs. {{ $curr_inv['amount'] }}</span>
+                            <span id="gt">Rs. {{ @$curr_inv['amount'] }}</span>
                         </div>
                         <hr>
                         <div class="two">
 
                             <h2>Balance</h2>
-                            <span id="bal">Rs. {{ $curr_inv['amount'] }}</span>
+                            <span id="bal">Rs. {{ @$curr_inv['amount'] }}</span>
                         </div>
                     </div>
 
@@ -325,54 +325,11 @@
     </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="index.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 
 </body>
 <script>
-        document.getElementById('disc_amt').addEventListener('change',function(){
-            let disc_amt = this.value;
-            var subtotalAmount = document.getElementById('subtotal-amount');
-            let st = subtotalAmount.textContent;
-            let numericValue = st.match(/\d+(\.\d+)?/);
-            let subtotal;
-            if (numericValue) {
-                subtotal =  numericValue[0]; // Output: 1500.00
-            } else {
-                subtotal = 0;
-            }
 
-            var discountAmount = document.getElementById('discount-amount');
-            let disc_type = document.getElementById('disc_type');
-            if(disc_type.value == 'percent'){
-                disc_amt = disc_amt/100*subtotal;
-            }
-            document.getElementById('payable-amount').textContent = 'Rs. ' + (subtotal-disc_amt).toFixed(2);
-        });
-
-        document.getElementById('tax_amt').addEventListener('change',function(){
-            let disc_amt = parseFloat(this.value);
-            var subtotalAmount = document.getElementById('payable-amount');
-            let st = subtotalAmount.textContent;
-            let numericValue = st.match(/\d+(\.\d+)?/);
-            let subtotal;
-            if (numericValue) {
-                subtotal =  parseFloat(numericValue[0]); // Output: 1500.00
-            } else {
-                subtotal = 0;
-            }
-            var discountAmount = document.getElementById('tax-amount');
-            let disc_type = document.getElementById('tax_type');
-            if(disc_type.value == 'percent'){
-                disc_amt = parseFloat(disc_amt/100*subtotal);
-            }
-            let totalAmt = subtotal + disc_amt;
-            console.log(typeof disc_amt);console.log(disc_amt);
-            document.getElementById('total-amount').textContent = 'Rs. ' + totalAmt;
-            document.getElementById('op').textContent = 'Rs. ' + totalAmt;
-            document.getElementById('gt').textContent = 'Rs. ' + totalAmt;
-            document.getElementById('bal').textContent = 'Rs. ' + totalAmt;
-        });
 
 
         function printPaymentSlip() {
@@ -561,16 +518,16 @@
                         <div class="add">
 
                             <p>
-                            <?php echo $curr_inv['customer_name']; ?>
+                            <?php echo @$curr_inv['customer_name']; ?>
                             </p>
 
                             <p><span><ion-icon name="call-outline"></ion-icon></span>
-                            <?php echo $curr_inv['customer_number']; ?>
+                            <?php echo @$curr_inv['customer_number']; ?>
                             </p>
                         </div>
                         <div class="add">
                             <p><span><ion-icon name="mail-outline"></ion-icon></ion-icon></span>
-                            <?php echo $curr_inv['customer_email']; ?>
+                            <?php echo @$curr_inv['customer_email']; ?>
                             </p>
                         </div>
                         <hr>
@@ -601,19 +558,19 @@
                         <div class="two">
 
                             <h4>discount:</h4>
-                            <span>Rs. <?php echo $curr_inv['discount']; ?></span>
+                            <span>Rs. <?php echo @$curr_inv['discount']; ?></span>
                         </div>
 
                         <hr>
                         <div class="two">
                             <h4>taxes: </h4>
-                            <span>Rs. <?php echo $curr_inv['vat']; ?></span>
+                            <span>Rs. <?php echo @$curr_inv['vat']; ?></span>
                         </div>
                         <hr>
                         <div class="two">
 
                             <h2>total</h2>
-                            <span id="total-amount">Rs. <?php echo $curr_inv['amount']; ?></span>
+                            <span id="total-amount">Rs. <?php echo @$curr_inv['amount']; ?></span>
                         </div>
                         <div class="two">
 
@@ -623,13 +580,13 @@
                         <div class="two">
 
                             <h2>grand Total</h2>
-                            <span id="gt">Rs. <?php echo $curr_inv['amount']; ?></span>
+                            <span id="gt">Rs. <?php echo @$curr_inv['amount']; ?></span>
                         </div>
                         <hr>
                         <div class="two">
 
                             <h2>Balance</h2>
-                            <span id="bal">Rs. <?php echo $curr_inv['amount']; ?></span>
+                            <span id="bal">Rs. <?php echo @$curr_inv['amount']; ?></span>
                         </div>
                     </div>
 
@@ -647,6 +604,26 @@
         // Print the payment slip
         printWindow.print();
     }
+
+    $('#return_button').on('click',function(e){
+        e.preventDefault();
+        let data = [{name:'id',value:'<?php echo @$curr_inv['id']; ?>'}];
+        $.ajax({
+            url: '{{ route("user.return") }}',
+            type: 'GET',
+            data:data,
+            success:function(res){
+                res = JSON.parse(res);
+                if(res.status == 200 ){
+                    alert('Successfully returned the product.');
+                    window.location.reload();
+                }else{
+                    alert('Something went wrong.');
+                    // window.location.reload();
+                }
+            }
+        });
+    });
 
 </script>
 </html>

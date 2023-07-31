@@ -24,6 +24,9 @@ class CreateFinalinvoiceTable extends Migration
             $table->bigInteger('payment_method');
             $table->timestamps();
             $table->string('invoice_id',100);
+            $table->bigInteger('status')->default(0);
+            $table->bigInteger('deleted')->default(0);
+
         });
     }
 

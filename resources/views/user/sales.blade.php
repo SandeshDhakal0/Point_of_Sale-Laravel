@@ -323,17 +323,20 @@
     $('#confirm-payment').on('click', function() {
         let paymentclass = $('.payment-method.active').attr('data-Dclass');
         let data = $('.' + paymentclass);
+        payment_method = 1;
         if (paymentclass == 'cash-payment') {
             payable = $('#total_amt h4').html();
         }else if(paymentclass == 'card-payment'){
             payable = $('#total_amt h4').html();
             cc_val = $('#cc_card').val();
+            payment_method = 2;
             if(!isValidCVV(cc_val)){
                 alert('Invalid CVV');
                 exit;
             }
         }else{
             payable = $('#total_amt h4').html();
+            payment_method = 3;
             if($('#is_cash').is(':checked') && ($('#split_cash').val() == null || $('#split_cash').val() == '')){
                 alert('Enter the amount of cash ');
                 exit;
@@ -353,6 +356,8 @@
             datas.push({name:'customer_email',value:document.getElementById('customer_email').value});
             datas.push({name:'customer_number',value:document.getElementById('customer_number').value});
             datas.push({name:'discount',value:discount});
+            datas.push({name:'status',value:payment_method});
+            datas.push({name:'deleted',value:0});
             datas.push({name:'vat',value:$('#tendered_amt h4').html()});
 
             let bal = $('#total_amt h4').html();

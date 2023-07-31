@@ -230,19 +230,19 @@ class UserController extends Controller
         $data = Product::all();
         $users = User::where('role',0)->get();
 
-        $curr_sale = FinalInvoice::all();
+        $curr_sale = FinalInvoice::where(['deleted'=>0])->get();
         $invoices = array();
         $invoice_id = '';
-        $created_at = new DateTime();
+        $created_at = '';
         $curr_inv = array();
-        if($curr_sale != null){
+        if(count($curr_sale) != 0){
             $curr_count = count($curr_sale);
 
             $invoice_id = $curr_sale[$curr_count-1]['invoice_id'];
 
             if(isset($_GET['invoice_id']) && $_GET['invoice_id'] != ''){
                 $id = $_GET['invoice_id'];
-                $invoice_id= FinalInvoice::where('id',$id)->get()[0]['invoice_id'];
+                $invoice_id= FinalInvoice::where(['id'=>$id,'deleted' => 0])->get()[0]['invoice_id'];
 
 
             }
@@ -274,7 +274,7 @@ class UserController extends Controller
         // Convert the timestamp to a formatted date (e.g., Y-m-d)
         $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
 
-        $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
+        $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->where('deleted', 0)->get();
         return view('user.dailysales',['product' => $products, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at, 'curr_inv' => $curr_inv]);
     }
 
@@ -293,6 +293,19 @@ class UserController extends Controller
     public function saveInv(Request $request){
         if($request->ajax()){
             if(FinalInvoice::create($request->input())){
+                echo json_encode(array('status'=>200));
+            }else{
+                echo json_encode(array('status'=>400));
+            }
+            die;
+        }
+    }
+
+    public function return(Request $request){
+        if($request->ajax()){
+            $id = $request->input('id');
+
+            if(FinalInvoice::where('id',$id)->update(['deleted' => 1])){
                 echo json_encode(array('status'=>200));
             }else{
                 echo json_encode(array('status'=>400));
