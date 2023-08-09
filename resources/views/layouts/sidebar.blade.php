@@ -30,6 +30,14 @@
                             </a>
                         </li>
                         <li class="nav-item ">
+                            <a href="{{route('wholesale.list')}}" class="nav-link {{ (Request::segment(1) == 'wholesale')?'active':'' }}">
+                                <i class="nav-icon fas fa-list-alt"></i>
+                                <p>
+                                    Wholesale Purchase Record
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
                             <a href="{{route('category.list')}}" class="nav-link {{ (Request::segment(1) == 'category')?'active':'' }}">
                                 <i class="nav-icon fas fa-list-alt"></i>
                                 <p>

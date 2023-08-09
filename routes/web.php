@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WholesalePurchase;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,11 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
     Route::get('/category/add',[CategoryController::class,'add'])->name('category.add');
     Route::get('/category/find',[CategoryController::class,'find'])->name('category.find');
     Route::get('/category/delete/{id}',[CategoryController::class,'delete'])->name('category.delete');
+
+    Route::get('/wholesale/list',[WholesalePurchase::class,'index'])->name('wholesale.list');
+    Route::get('/wholesale/add',[WholesalePurchase::class,'add'])->name('wholesale.add');
+    Route::get('/wholesale/find',[WholesalePurchase::class,'find'])->name('wholesale.find');
+    Route::get('/wholesale/delete/{id}',[WholesalePurchase::class,'delete'])->name('wholesale.delete');
 
     Route::get('/sub-category/list',[SubcategoryController::class,'index'])->name('subcategory.list');
     Route::get('/sub-category/add',[SubcategoryController::class,'add'])->name('subcategory.add');

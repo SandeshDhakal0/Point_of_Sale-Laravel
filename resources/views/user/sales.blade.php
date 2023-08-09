@@ -145,8 +145,8 @@
                         <p>Tendered</p>
                     </div>
                     <div class="total-amt" id="total_amt">
-                        <h4>{{ $payable }}</h4>
-                        <p>Charge</p>
+                        <h4>0</h4>
+                        <p>Return</p>
                     </div>
                 </div>
                 <div class="col-6">
@@ -300,7 +300,7 @@
             if (curr > 9) {
                 var curr_amt = curr.slice(0, -1);
                 $('#tendered_amt h4').html(curr_amt);
-                let final_amt = parseFloat(given_amt) + parseFloat(curr_amt);
+                let final_amt = parseFloat(curr_amt) - parseFloat(given_amt);
                 $('#total_amt h4').html(final_amt);
 
             } else {
@@ -311,10 +311,10 @@
         } else {
             if (curr == 0) {
                 $('#tendered_amt h4').html(val);
-                $('#total_amt h4').html(parseFloat(given_amt) + parseFloat(val));
+                $('#total_amt h4').html(parseFloat(val) - parseFloat(given_amt));
             } else {
                 $('#tendered_amt h4').html(curr + val);
-                $('#total_amt h4').html(parseFloat(given_amt) + parseFloat(curr + val));
+                $('#total_amt h4').html(parseFloat(curr + val) - parseFloat(given_amt));
 
             }
         }
@@ -325,9 +325,9 @@
         let data = $('.' + paymentclass);
         payment_method = 1;
         if (paymentclass == 'cash-payment') {
-            payable = $('#total_amt h4').html();
+            payable = $('#given_amt h4').html();
         }else if(paymentclass == 'card-payment'){
-            payable = $('#total_amt h4').html();
+            payable = $('#given_amt h4').html();
             cc_val = $('#cc_card').val();
             payment_method = 2;
             if(!isValidCVV(cc_val)){
@@ -335,7 +335,7 @@
                 exit;
             }
         }else{
-            payable = $('#total_amt h4').html();
+            payable = $('#given_amt h4').html();
             payment_method = 3;
             if($('#is_cash').is(':checked') && ($('#split_cash').val() == null || $('#split_cash').val() == '')){
                 alert('Enter the amount of cash ');
@@ -358,13 +358,15 @@
             datas.push({name:'discount',value:discount});
             datas.push({name:'status',value:payment_method});
             datas.push({name:'deleted',value:0});
-            datas.push({name:'vat',value:$('#tendered_amt h4').html()});
+            datas.push({name:'vat',value:0});
 
-            let bal = $('#total_amt h4').html();
+            let bal = $('#given_amt h4').html();
             let subtotal = parseFloat(bal);
 
             datas.push({name:'amount',value:subtotal});
             datas.push({name:'payment_method',value:1});
+
+            console.log(datas)
             $.ajax({
                 type:'GET',
                 url:"{{route('sales.pay')}}",
@@ -373,19 +375,23 @@
                     res = JSON.parse(res);
                     if(res.status == 200){
                         if(confirm('Do you want to print the Invoice!') == true){
-                            var paymentDetails = {
+                        var paymentDetails = {
                             amount: payable,
                             invoiceId: "{{ $invoices[0]['invoice_id'] }}",
-                            date: new Date()
+                            date: new Date(),
+                            paid:$('#tendered_amt h4').html(),
+                            return:$('#total_amt h4').html()
+
                         };
+
                         printPaymentSlip(paymentDetails);
-                        window.location.href = '{{ route("user.index") }}';
+                        window.location.href = '{{ route("user.dailysales") }}';
                         }
                     }else{
                         alert('Something went wrong !!!');
                     }
                 }
-            })
+            });
     });
     function isValidCVV(cvv) {
         var cvvPattern = /^[0-9]{3,4}$/;
@@ -431,7 +437,13 @@
           <h1>Payment Slip</h1>
         </div>
         <div class="amount">
-          Amount: ${paymentDetails.amount}
+          Payable Amount: ${paymentDetails.amount}
+        </div>
+        <div class="amount">
+          Paid Amount: ${paymentDetails.paid}
+        </div>
+        <div class="amount">
+          Return: ${paymentDetails.return}
         </div>
         <div class="details">
           <strong>Invoice ID:</strong> ${paymentDetails.invoiceId}
