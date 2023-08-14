@@ -60,8 +60,10 @@
                                     <input type="text" class="form-control" name="product_name" id="product-name" value={{ $product['product_name'] }} placeholder="Enter product name.">
                                 </div>
                                 <div class="form-group">
-                                    <label for="product-brand">Brand</label>
-                                    <input type="text" class="form-control" name="product_brand" id="product-brand" value={{ $product['product_brand'] }} placeholder="Enter Product Brand.">
+                                    <label for="particulars">Particulars</label>
+                                    <textarea class="form-control" id="particulars" name="particulars" rows="4" cols="50">
+                                    {{ $product['particulars'] }}
+                                    </textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -74,24 +76,72 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="product-quantity">Quantity</label>
-                                    <input type="number" class="form-control" name="stock_quantity" value={{ $product['stock_quantity'] }} id="product-quantity" placeholder="Enter Product Quantity.">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="meter">meter</label>
+                                                <input type="text" name="meter" value="{{ $quantity->meter }}" id="meter" class="form-control" placeholder="Enter meter value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="sqmt">sq. meter</label>
+                                                <input type="text" name="sqmt" id="sqmt" value="{{ $quantity->sqmt }}"  class="form-control" placeholder="Enter sqmt value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="perpiece">per/piece</label>
+                                                <input type="text" name="perpiece" id="perpiece" value="{{ $quantity->perpiece }}"  class="form-control" placeholder="Enter per/piece value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="sqft">sq. ft</label>
+                                                <input type="text" name="sqft" id="sqft" value="{{ $quantity->sqft }}"  class="form-control" placeholder="Enter sqft value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="cm">cm</label>
+                                                <input type="text" name="cm" id="cm" value="{{ $quantity->cm }}"  class="form-control" placeholder="Enter cm value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gallons">kg</label>
+                                                <input type="text" name="kg" id="kg" value="{{ $quantity->kg }}"  class="form-control" placeholder="Enter kg value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gram">gram</label>
+                                                <input type="text" name="gram" id="gram" value="{{ $quantity->gram }}"  class="form-control" placeholder="Enter gram value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="litre">litre</label>
+                                                <input type="text" name="litre" id="litre" value="{{ $quantity->litre }}"  class="form-control" placeholder="Enter litre value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gallons">gallons</label>
+                                                <input type="text" name="gallons" id="gallons" value="{{ $quantity->gallons }}"  class="form-control" placeholder="Enter gallons value.">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label for="product-price">Price</label>
-                                    <input type="text" class="form-control" name="sales_price" value={{ $product['sales_price'] }} id="product-price" placeholder="Enter Product Price.">
+                                    <label for="cost-price">Cost Price</label>
+                                    <input type="text" class="form-control" name="cost_price" value="{{ $product['cost_price'] }}" id="cost-price" placeholder="Enter Product Cost Price.">
                                 </div>
                                 <div class="form-group">
-                                    <label>Available Size</label>
-                                    <select class="custom-select" name="available_sizes">
-                                        <option value="S" @if($cat['product_cat_id']=='S' ) selected ; @endif>S</option>
-                                        <option value="M" @if($cat['product_cat_id']=='M' ) selected ; @endif>M</option>
-                                        <option value="L" @if($cat['product_cat_id']=='L' ) selected ; @endif>L</option>
-                                        <option value="XL" @if($cat['product_cat_id']=='XL' ) selected ; @endif>XL</option>
-                                        <option value="XXL" @if($cat['product_cat_id']=='XXL' ) selected ; @endif>XXL</option>
-                                        <option value="XXXL" @if($cat['product_cat_id']=='XXXL' ) selected ; @endif>XXXL</option>
-                                    </select>
+                                    <label for="product-price">Marked Price</label>
+                                    <input type="text" class="form-control" name="sales_price" value="{{ $product['sales_price'] }}" id="product-price" placeholder="Enter Product Marked Price.">
                                 </div>
                                 <div class="form-group">
                                     <label>Sub Category</label>
@@ -104,6 +154,10 @@
                                 <div class="form-group">
                                     <label>Description</label>
                                     <textarea class="form-control" rows="3" name="product_description" placeholder="Enter Product Description">{{ $product['product_description'] }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea class="form-control" rows="3" name="remarks" placeholder="Enter Product Remarks">{{ $product['remarks'] }}</textarea>
                                 </div>
                             </div>
                         </div>

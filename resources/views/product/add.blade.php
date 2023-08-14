@@ -59,8 +59,9 @@
                                     <input type="text" class="form-control" name="product_name" id="product-name" placeholder="Enter product name.">
                                 </div>
                                 <div class="form-group">
-                                    <label for="product-brand">Brand</label>
-                                    <input type="text" class="form-control" name="product_brand" id="product-brand" placeholder="Enter Product Brand.">
+                                    <label for="particulars">Particulars</label>
+                                    <textarea class="form-control" id="particulars" name="particulars" rows="4" cols="50">
+                                    </textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -73,24 +74,72 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="product-quantity">Quantity</label>
-                                    <input type="number" class="form-control" name="stock_quantity" id="product-quantity" placeholder="Enter Product Quantity.">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="meter">meter</label>
+                                                <input type="text" name="meter" id="meter" class="form-control" placeholder="Enter meter value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="sqmt">sq. meter</label>
+                                                <input type="text" name="sqmt" id="sqmt" class="form-control" placeholder="Enter sqmt value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="perpiece">per/piece</label>
+                                                <input type="text" name="perpiece" id="perpiece" class="form-control" placeholder="Enter per/piece value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="sqft">sq. ft</label>
+                                                <input type="text" name="sqft" id="sqft" class="form-control" placeholder="Enter sqft value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="cm">cm</label>
+                                                <input type="text" name="cm" id="cm" class="form-control" placeholder="Enter cm value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gallons">kg</label>
+                                                <input type="text" name="kg" id="kg" class="form-control" placeholder="Enter kg value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gram">gram</label>
+                                                <input type="text" name="gram" id="gram" class="form-control" placeholder="Enter gram value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="litre">litre</label>
+                                                <input type="text" name="litre" id="litre" class="form-control" placeholder="Enter litre value.">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gallons">gallons</label>
+                                                <input type="text" name="gallons" id="gallons" class="form-control" placeholder="Enter gallons value.">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label for="product-price">Price</label>
-                                    <input type="text" class="form-control" name="sales_price" id="product-price" placeholder="Enter Product Price.">
+                                    <label for="cost-price">Cost Price</label>
+                                    <input type="text" class="form-control" name="cost_price" id="cost-price" placeholder="Enter Product Cost Price.">
                                 </div>
                                 <div class="form-group">
-                                    <label>Available Size</label>
-                                    <select class="custom-select" name="available_sizes">
-                                        <option value="S">S</option>
-                                        <option value="M">M</option>
-                                        <option value="L">L</option>
-                                        <option value="XL">XL</option>
-                                        <option value="XXL">XXL</option>
-                                        <option value="XXXL">XXXL</option>
-                                    </select>
+                                    <label for="product-price">Marked Price</label>
+                                    <input type="text" class="form-control" name="sales_price" id="product-price" placeholder="Enter Product Marked Price.">
                                 </div>
                                 <div class="form-group">
                                     <label>Sub Category</label>
@@ -103,6 +152,10 @@
                                 <div class="form-group">
                                     <label>Description</label>
                                     <textarea class="form-control" rows="3" name="product_description" placeholder="Enter Product Description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea class="form-control" rows="3" name="remarks" placeholder="Enter Product Remarks"></textarea>
                                 </div>
                             </div>
                         </div>

@@ -62,10 +62,7 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Name</th>
-                                    <th>Brand</th>
-                                    <th>Size</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Marked Price</th>
                                     <th>Bar Code</th>
                                     <th>Action</th>
                                 </tr>
@@ -108,15 +105,6 @@
                         },
                         {
                             data: 'product_name'
-                        },
-                        {
-                            data: 'product_brand'
-                        },
-                        {
-                            data: 'available_sizes'
-                        },
-                        {
-                            data: 'stock_quantity'
                         },
                         {
                             data: 'sales_price'
