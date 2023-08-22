@@ -234,16 +234,16 @@
                         <div class="add">
 
                             <p>
-                            {{ @$curr_inv['customer_name'] }}
+                            {{ @$customer['firstname'] }}&nbsp;{{ @$customer['middlename'] }}&nbsp;{{ @$customer['lastname'] }}
                             </p>
 
                             <p><span><ion-icon name="call-outline"></ion-icon></span>
-                            {{ @$curr_inv['customer_number'] }}
+                            {{ @$customer['mobilenumber'] }}
                             </p>
                         </div>
                         <div class="add">
                             <p><span><ion-icon name="mail-outline"></ion-icon></ion-icon></span>
-                            {{ @$curr_inv['customer_email'] }}
+                            {{ @$customer['email'] }}
                             </p>
                         </div>
                         <hr>
@@ -718,9 +718,9 @@
             <div class="sec-company-detail" style="text-align: right;">
                 <h1>Invoice</h1>
                 <span>Billed to,</span>
-                <h3><?php echo @$curr_inv['customer_name']; ?></h3>
-                <span><?php echo @$curr_inv['customer_email']; ?></span><br>
-                <span><?php echo @$curr_inv['customer_number']; ?></span><br>
+                <h3><?php echo @$customer['firstname'].' '.@$customer['middlename'].' '.@$customer['lastname']; ?></h3>
+                <span><?php echo  @$customer['email']; ?></span><br>
+                <span><?php echo @$customer['mobilenumber']; ?></span><br>
 
             </div>
         </div>

@@ -85,6 +85,7 @@ Route::prefix('user')->middleware(['auth','isUser'])->group(function(){
     Route::get('/proddata',[UserController::class,'getProduct'])->name('user.productdata');
     Route::get('/saveinv',[UserController::class,'saveInv'])->name('sales.pay');
     Route::get('/return',[UserController::class,'return'])->name('user.return');
+    Route::get('/customer/add',[UserController::class,'addCus'])->name('customer.add');
 });
 
 Route::get('/logout', [LogoutController::class,'perform'])->name('logout');

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Customers;
 use App\Models\FinalInvoice;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\User;
+use COM;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -181,7 +183,9 @@ class UserController extends Controller
 
                 $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->get();
 
-                return view('user.sales',['payable' => $payable_amt,'invoices' => $invoices,'product' => $products, 'paids_invoices' => $all_invoice, 'discount'=> $disc_amt ]);
+                $customers = Customers::all();
+
+                return view('user.sales',['payable' => $payable_amt,'invoices' => $invoices,'product' => $products, 'paids_invoices' => $all_invoice, 'discount'=> $disc_amt, 'customers' => $customers ]);
             }
         }
         echo 'Invalid Credentials';die;
@@ -273,9 +277,11 @@ class UserController extends Controller
 
         // Convert the timestamp to a formatted date (e.g., Y-m-d)
         $sevenDaysBefore = date('Y-m-d', $sevenDaysBeforeTimestamp);
-
         $all_invoice = FinalInvoice::where('created_at', '>', $sevenDaysBefore)->where('deleted', 0)->get();
-        return view('user.dailysales',['product' => $products, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at, 'curr_inv' => $curr_inv]);
+
+        $customer = Customers::where('id',$curr_inv['customer_id'])->first();
+
+        return view('user.dailysales',['product' => $products, 'users' => $users,'invoices' => $invoices,'paids_invoices' => $all_invoice, 'invoice_id' => $invoice_id,'created_at' => $created_at, 'curr_inv' => $curr_inv, 'customer' => $customer]);
     }
 
     public function getProduct(Request $request){
@@ -296,6 +302,25 @@ class UserController extends Controller
                 echo json_encode(array('status'=>200));
             }else{
                 echo json_encode(array('status'=>400));
+            }
+            die;
+        }
+    }
+
+    public function addCus(Request $request){
+        if($request->ajax()){
+            $formdata = $request->input();
+            $formdata['dtstamp'] = date('Y-m-d H:i:s');
+            if(Customers::where('mobilenumber',$formdata['mobilenumber'])->first()){
+                var_dump(Customers::where('mobilenumber',$formdata['mobilenumber'])->first());
+                echo json_encode(array('status' => 400));
+                die;
+            }
+            if(Customers::create($formdata)){
+                $data = Customers::all();
+                echo json_encode(array('status'=>200,'data' => $data));
+            }else{
+                echo json_encode(array('status' => 400));
             }
             die;
         }

@@ -3,6 +3,7 @@
 
 <head>
     @include('user-layouts.meta')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <style>
         .payment-method {
             width: 100%;
@@ -112,6 +113,12 @@
 
         input {
             cursor: pointer;
+        }
+        .customer-container{
+            width: 100%;
+            padding: 12px 22px;
+            background: #ddd;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -231,19 +238,66 @@
             </div>
 
 
-            <div class="col-8">
-                <h4 class="text-center">Customer Details</h4>
+            <div class="col-4 mt-3">
+                <h4 class="text-center"></h4>
                 <div class="form-group">
-                    <label for="customer_name">Name:</label>
-                    <input class="form-control" type="text" name="customer_name" id="customer_name">
+                    <label for="#single">Customer</label>
+                    <select id="single" class="js-states form-control">
+                        <option></option>
+                        <?php foreach($customers as $c){ ?>
+                            <option value="<?php echo $c['id']; ?>"><?php echo $c['mobilenumber']; ?></option>
+                        <?php } ?>
+
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="customer_number">Number:</label>
-                    <input class="form-control" type="text" name="customer_number" id="customer_number">
-                </div>
-                <div class="form-group">
-                    <label for="customer_email">Email:</label>
-                    <input class="form-control" type="text" name="customer_email" id="customer_email">
+            </div>
+            <div class="col-4 mt-5 pt-3">
+                <button type="button" class="btn btn-primary btn-sm adCus" style="margin: 0 auto;">
+                    <i class="fa fa-plus"></i>&nbsp;Customer
+                </button>
+                <input type="hidden" name="customer_id" class="customer_id">
+                <div class="customer-container" style="display: none;">
+                    <h4 class="text-center text-bold">Add Customer</h4>
+                    <form id="savecus">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" name="firstname" id="firstname" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Middle Name</label>
+                                <input type="text" name="middlename" id="middlename" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" name="lastname" id="lastname" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="mail" name="email" id="email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" name="mobilenumber" id="mobilenumber" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                            <button type="button" class="btn btn-danger btn-sm pull-right canceladd">Cancel</button>
+
+                        </div>
+                    </div>
+                    </form>
+
                 </div>
             </div>
             <div class="col-4 mt-3" style="padding: 0;padding-right: 30px;">
@@ -256,7 +310,53 @@
 </body>
 
 @include('user-layouts.scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <script>
+    $('.adCus').on('click',function(){
+        $(this).addClass('d-none');
+        $('.customer-container').slideDown();
+    });
+
+    $('.canceladd').on('click',function(){
+        $('.customer-container input').val('');
+        $('.customer-container').slideUp();
+        setTimeout(function(){$('.adCus').removeClass('d-none');},600);
+
+    });
+
+    $('#single').on('change',function(){
+        $('.customer_id').val($(this).val());
+    })
+
+    $('#savecus').on('submit',function(){
+        event.preventDefault();
+        let formdata = $(this).serializeArray();
+        $.ajax({
+            type:'GET',
+                url:"{{route('customer.add')}}",
+                data:formdata,
+                success:function(res){
+                    res = JSON.parse(res);
+                    if(res.status == 200){
+                        let d = res.data;
+                        let html = '<option></option>';
+                        for(i=0;i<d.length;i++){
+                            html += '<option value="'+d[i].id+'">'+d[i].mobilenumber+'</option>';
+                        }
+                        $('#single').html(html);
+                        $('.canceladd').trigger('click');
+                    }else{
+                        alert('Phone Number already Exists.');
+                    }
+                }
+        });
+    });
+
+    $("#single").select2({
+        placeholder: "Select Customer",
+        allowClear: true
+    });
+
     let paymentmethod = $('.payment-method');
     paymentmethod.each(function() {
         $(this).on('click', function() {
@@ -352,9 +452,7 @@
         }
             let discount = <?php echo $discount ?>;
             let datas = [{name:'invoice_id',value:document.getElementById('invoice_id').textContent}];
-            datas.push({name:'customer_name',value:document.getElementById('customer_name').value});
-            datas.push({name:'customer_email',value:document.getElementById('customer_email').value});
-            datas.push({name:'customer_number',value:document.getElementById('customer_number').value});
+            datas.push({name:'customer_id',value:$('.customer_id').val()});
             datas.push({name:'discount',value:discount});
             datas.push({name:'status',value:payment_method});
             datas.push({name:'deleted',value:0});
